@@ -1,0 +1,6 @@
+{
+  "name": "JinnyLoan - Home, Personal & Business Loans Marketplace",
+  "description": "Compare and apply for home, personal, and business loans starting at 7.10% p.a. from India's top 100+ banks with instant digital approvals and zero foreclosure fees.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
