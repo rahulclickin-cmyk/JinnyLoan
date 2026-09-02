@@ -17,25 +17,25 @@ interface ChargesSectionProps {
 
 export const ChargesSection: React.FC<ChargesSectionProps> = ({ onOpenApplyModal }) => {
   return (
-    <section id="charges" className="py-14 sm:py-18 bg-white border-b border-slate-200 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="charges" className="py-6 sm:py-14 bg-white border-b border-slate-200 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 text-[#E81E76] text-xs font-bold uppercase tracking-wider mb-2">
-            <ReceiptText className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-4 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100 text-[#E81E76] text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1.5">
+            <ReceiptText className="w-3 h-3" />
             <span>100% Transparency</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
+          <h2 className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
             Loan Charges & Processing Fees Breakdown
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-            No hidden clauses. Zero broker fees. Here is the complete breakdown of applicable charges across our top partner banks.
+          <p className="mt-1 text-[11px] sm:text-sm text-slate-600 leading-relaxed">
+            No hidden clauses. Zero broker fees across our top partner banks
           </p>
         </div>
 
         {/* Charges Table / Cards Container */}
-        <div className="bg-slate-50 rounded-3xl border border-slate-200 overflow-hidden shadow-2xs">
+        <div className="bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-200 overflow-hidden shadow-2xs">
           
           {/* Table for Desktop & Tablet */}
           <div className="hidden md:block overflow-x-auto">
@@ -88,19 +88,19 @@ export const ChargesSection: React.FC<ChargesSectionProps> = ({ onOpenApplyModal
             {CHARGES_DATA.map((item) => (
               <div 
                 key={item.type}
-                className={`p-5 space-y-2 ${item.highlight ? 'bg-pink-50/70' : 'bg-white'}`}
+                className={`p-3 space-y-1 ${item.highlight ? 'bg-pink-50/70' : 'bg-white'}`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-900">
                     {item.type}
                   </span>
-                  <span className={`text-xs font-extrabold px-2.5 py-0.5 rounded ${
+                  <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
                     item.highlight ? 'bg-[#E81E76] text-white' : 'bg-slate-200 text-slate-800'
                   }`}>
                     {item.fee}
                   </span>
                 </div>
-                <p className="text-xs text-slate-600">
+                <p className="text-[10px] text-slate-600 leading-tight">
                   {item.note}
                 </p>
               </div>
@@ -110,27 +110,27 @@ export const ChargesSection: React.FC<ChargesSectionProps> = ({ onOpenApplyModal
         </div>
 
         {/* RBI Policy & Zero Brokerage Note */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+        <div className="mt-4 sm:mt-8 grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-4">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5">
+            <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-xs font-bold text-emerald-900 uppercase tracking-wider">
+              <h4 className="text-[11px] sm:text-xs font-bold text-emerald-900 uppercase tracking-wider">
                 RBI Compliant Zero Prepayment Policy
               </h4>
-              <p className="text-xs text-emerald-800 mt-1 leading-relaxed">
-                As per Reserve Bank of India mandates, banks cannot charge any foreclosure penalty or part-prepayment fees on floating rate loans taken by individual borrowers.
+              <p className="text-[10px] sm:text-xs text-emerald-800 mt-0.5 leading-relaxed">
+                As per Reserve Bank of India mandates, banks cannot charge any foreclosure penalty or part-prepayment fees on floating rate loans.
               </p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3">
-            <HandCoins className="w-5 h-5 text-[#1e40af] flex-shrink-0 mt-0.5" />
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-2.5">
+            <HandCoins className="w-4 h-4 sm:w-5 sm:h-5 text-[#1e40af] flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider">
+              <h4 className="text-[11px] sm:text-xs font-bold text-blue-900 uppercase tracking-wider">
                 100% Free Service For Customers
               </h4>
-              <p className="text-xs text-blue-800 mt-1 leading-relaxed">
-                JinnyLoan charges ₹0 consulting fee from borrowers. We are directly remunerated by the lending institutions upon successful loan disbursement.
+              <p className="text-[10px] sm:text-xs text-blue-800 mt-0.5 leading-relaxed">
+                JinnyLoan charges ₹0 consulting fee from borrowers. We are directly remunerated by the lending institutions.
               </p>
             </div>
           </div>

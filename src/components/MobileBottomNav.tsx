@@ -4,12 +4,12 @@ import {
   Flame, 
   Calculator, 
   Building2, 
-  Sparkles, 
-  PhoneCall, 
+  HandCoins, 
+  Send,
   MessageSquare, 
-  Share2,
+  Share2, 
   CheckCircle2,
-  Layers
+  FileCheck2
 } from 'lucide-react';
 
 interface MobileBottomNavProps {
@@ -164,7 +164,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
               id="mobile-nav-apply-center"
               aria-label="Instant Loan Application"
             >
-              <Sparkles className="w-6 h-6 text-yellow-300 animate-spin-slow" />
+              <Send className="w-5 h-5 text-white -translate-y-0.5 translate-x-0.5" />
             </button>
             <span className="text-[10px] font-extrabold text-[#E81E76] tracking-tight mt-0.5">Apply</span>
           </div>

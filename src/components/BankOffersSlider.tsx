@@ -173,6 +173,10 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
 
+  const getScrollDistance = () => {
+    return window.innerWidth < 640 ? 210 : 340;
+  };
+
   // Gentle, slow automatic scrolling
   useEffect(() => {
     if (!isPlaying || isHovered) return;
@@ -180,10 +184,10 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
     const interval = setInterval(() => {
       if (scrollContainerRef.current) {
         const container = scrollContainerRef.current;
-        const cardWidth = 360; // Card width + gap
+        const cardWidth = getScrollDistance();
         const maxScroll = container.scrollWidth - container.clientWidth;
         
-        if (container.scrollLeft >= maxScroll - 10) {
+        if (container.scrollLeft >= maxScroll - 15) {
           container.scrollTo({ left: 0, behavior: 'smooth' });
           setActiveSlideIndex(0);
         } else {
@@ -199,7 +203,7 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
-      const cardWidth = 360;
+      const cardWidth = getScrollDistance();
       const index = Math.round(container.scrollLeft / cardWidth);
       setActiveSlideIndex(Math.min(index, BANK_SLIDER_OFFERS.length - 1));
     }
@@ -207,7 +211,7 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
 
   const scrollPrev = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -360, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: -getScrollDistance(), behavior: 'smooth' });
     }
   };
 
@@ -215,10 +219,10 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
       const maxScroll = container.scrollWidth - container.clientWidth;
-      if (container.scrollLeft >= maxScroll - 10) {
+      if (container.scrollLeft >= maxScroll - 15) {
         container.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        container.scrollBy({ left: 360, behavior: 'smooth' });
+        container.scrollBy({ left: getScrollDistance(), behavior: 'smooth' });
       }
     }
   };
@@ -226,7 +230,7 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
   return (
     <section 
       id="bank-offers-slider" 
-      className="py-10 bg-gradient-to-r from-slate-900 via-[#0f172a] to-slate-900 text-white relative overflow-hidden border-y border-slate-800"
+      className="py-6 sm:py-10 bg-gradient-to-r from-slate-900 via-[#0f172a] to-slate-900 text-white relative overflow-hidden border-y border-slate-800"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -234,132 +238,132 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none translate-y-1/2" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
         
         {/* Slider Header with Controls */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold uppercase tracking-wider border border-pink-500/30">
-                <Flame className="w-3.5 h-3.5 text-pink-400 fill-pink-400" />
+        <div className="flex items-center justify-between gap-2 mb-3 sm:mb-6">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 text-[9px] sm:text-xs font-bold uppercase tracking-wider border border-pink-500/30">
+                <Flame className="w-3 h-3 text-pink-400 fill-pink-400" />
                 <span>Live Bank Deals</span>
               </span>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-[10px] sm:text-xs text-slate-400 font-medium hidden xs:inline">
                 Auto-updated daily
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight font-['Outfit',sans-serif]">
-              Exclusive Partner Bank Offers & Interest Concessions
+            <h2 className="text-sm sm:text-2xl lg:text-3xl font-black text-white tracking-tight font-['Outfit',sans-serif]">
+              Exclusive Partner Bank Offers
             </h2>
           </div>
 
           {/* Interactive Slider Navigation & Play/Pause Controls */}
-          <div className="flex items-center gap-2 self-end sm:self-auto bg-slate-800/80 p-1.5 rounded-xl border border-slate-700 backdrop-blur-xs">
+          <div className="flex items-center gap-1 sm:gap-2 bg-slate-800/80 p-1 rounded-lg sm:rounded-xl border border-slate-700 backdrop-blur-xs flex-shrink-0">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-1 sm:p-2 rounded text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
               aria-label={isPlaying ? 'Pause auto-slide' : 'Play auto-slide'}
               title={isPlaying ? 'Pause sliding' : 'Resume sliding'}
             >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             </button>
-            <div className="w-[1px] h-4 bg-slate-700" />
+            <div className="w-[1px] h-3 sm:h-4 bg-slate-700" />
             <button
               onClick={scrollPrev}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-1 sm:p-2 rounded text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
               aria-label="Previous Offer"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={scrollNext}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-1 sm:p-2 rounded text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
               aria-label="Next Offer"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
-        {/* Gently Sliding Carousel Container */}
+        {/* Gently Sliding Carousel Container: 2-3 Visible on Mobile */}
         <div 
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth cursor-grab active:cursor-grabbing"
+          className="flex gap-2 sm:gap-4 lg:gap-6 overflow-x-auto pb-3 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {BANK_SLIDER_OFFERS.map((offer) => (
             <div
               key={offer.id}
-              className={`flex-shrink-0 w-[300px] sm:w-[350px] md:w-[370px] snap-start rounded-3xl bg-gradient-to-b ${offer.bgGradient} text-slate-900 p-6 border-2 ${offer.borderColor} shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden`}
+              className={`flex-shrink-0 w-[180px] xs:w-[205px] sm:w-[280px] md:w-[330px] snap-start rounded-2xl sm:rounded-3xl bg-gradient-to-b ${offer.bgGradient} text-slate-900 p-3 sm:p-5 border-2 ${offer.borderColor} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden`}
               id={`offer-card-${offer.id}`}
             >
-              {/* Highlight Badge Top Right */}
-              <div className="flex items-start justify-between gap-2 mb-4">
-                <div className="bg-white p-2.5 rounded-2xl shadow-xs border border-slate-100 flex items-center justify-center">
-                  <BankLogo name={offer.bankName} size="sm" showText={true} />
+              {/* Highlight Badge Top */}
+              <div className="flex items-start justify-between gap-1.5 mb-2 sm:mb-3">
+                <div className="bg-white p-1.5 sm:p-2 rounded-xl shadow-xs border border-slate-100 flex items-center justify-center">
+                  <BankLogo name={offer.bankName} size="sm" showText={false} />
                 </div>
-                <span className={`inline-block px-3 py-1 rounded-full text-[11px] font-extrabold border shadow-2xs ${offer.badgeColor}`}>
+                <span className={`inline-block px-1.5 sm:px-2.5 py-0.5 rounded-full text-[9px] sm:text-[11px] font-extrabold border shadow-2xs truncate max-w-[110px] ${offer.badgeColor}`}>
                   {offer.highlightBadge}
                 </span>
               </div>
 
               {/* Offer Details */}
-              <div className="space-y-3">
+              <div className="space-y-1.5 sm:space-y-2.5">
                 <div>
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                  <span className="text-[9px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-wider block truncate">
                     {offer.loanType}
                   </span>
-                  <div className="flex items-baseline gap-2 mt-0.5">
-                    <span className="text-2xl sm:text-3xl font-black text-[#E81E76] font-['Outfit',sans-serif]">
+                  <div className="flex items-baseline gap-1 mt-0.5">
+                    <span className="text-lg sm:text-2xl md:text-3xl font-black text-[#E81E76] font-['Outfit',sans-serif]">
                       {offer.interestRate}
                     </span>
                   </div>
                 </div>
 
                 {/* Key Metrics Grid */}
-                <div className="grid grid-cols-3 gap-2 bg-slate-100/90 rounded-2xl p-3 text-center border border-slate-200/60">
-                  <div className="border-r border-slate-200">
-                    <span className="text-[9px] font-bold text-slate-500 uppercase block">Max Amount</span>
-                    <span className="text-xs font-black text-slate-900 font-['Outfit',sans-serif]">
+                <div className="grid grid-cols-3 gap-1 bg-slate-100/90 rounded-xl p-1.5 sm:p-2 text-center border border-slate-200/60">
+                  <div className="border-r border-slate-200 pr-0.5">
+                    <span className="text-[8px] font-bold text-slate-500 uppercase block">Max</span>
+                    <span className="text-[10px] sm:text-xs font-black text-slate-900 font-['Outfit',sans-serif] block truncate">
                       {offer.maxAmount}
                     </span>
                   </div>
-                  <div className="border-r border-slate-200">
-                    <span className="text-[9px] font-bold text-slate-500 uppercase block">Tenure</span>
-                    <span className="text-xs font-black text-slate-900 font-['Outfit',sans-serif]">
+                  <div className="border-r border-slate-200 px-0.5">
+                    <span className="text-[8px] font-bold text-slate-500 uppercase block">Tenure</span>
+                    <span className="text-[10px] sm:text-xs font-black text-slate-900 font-['Outfit',sans-serif] block truncate">
                       {offer.maxTenure}
                     </span>
                   </div>
-                  <div>
-                    <span className="text-[9px] font-bold text-slate-500 uppercase block">Fee</span>
-                    <span className="text-xs font-black text-emerald-700 font-['Outfit',sans-serif]">
+                  <div className="pl-0.5">
+                    <span className="text-[8px] font-bold text-slate-500 uppercase block">Fee</span>
+                    <span className="text-[10px] sm:text-xs font-black text-emerald-700 font-['Outfit',sans-serif] block truncate">
                       {offer.processingFee}
                     </span>
                   </div>
                 </div>
 
                 {/* Special Perk Description */}
-                <div className="flex items-start gap-2 bg-white/80 p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-700">
-                  <Gift className="w-3.5 h-3.5 text-[#E81E76] flex-shrink-0 mt-0.5" />
-                  <p className="line-clamp-2 leading-snug">
+                <div className="flex items-start gap-1 sm:gap-1.5 bg-white/80 p-1.5 sm:p-2 rounded-lg sm:rounded-xl border border-slate-200/80 text-[9px] sm:text-[11px] text-slate-700">
+                  <Gift className="w-3 h-3 text-[#E81E76] flex-shrink-0 mt-0.5" />
+                  <p className="line-clamp-1 leading-tight">
                     {offer.specialPerk}
                   </p>
                 </div>
               </div>
 
               {/* Action Button: Claim Offer */}
-              <div className="mt-5 pt-3 border-t border-slate-200/80 flex items-center justify-between gap-3">
-                <span className="text-[11px] font-semibold text-slate-500">
-                  Zero Consultation Fee
+              <div className="mt-2.5 sm:mt-4 pt-2 border-t border-slate-200/80 flex items-center justify-between gap-1">
+                <span className="text-[9px] font-semibold text-slate-500 hidden sm:inline">
+                  0 Consultation Fee
                 </span>
                 <button
                   onClick={() => onOpenApplyModal(offer.bankName, offer.loanType)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#E81E76] hover:bg-[#c2145e] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-pink-600/20 hover:shadow-pink-600/40 transition-all transform group-hover:translate-x-0.5 cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#E81E76] hover:bg-[#c2145e] text-white font-extrabold text-[10px] sm:text-xs rounded-xl shadow-xs transition-all transform active:scale-95 cursor-pointer"
                   id={`claim-offer-${offer.id}`}
                 >
-                  <span>Claim Offer</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Claim</span>
+                  <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
 
@@ -368,20 +372,20 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
         </div>
 
         {/* Slide Indicator Dots */}
-        <div className="flex items-center justify-center gap-1.5 mt-4">
+        <div className="flex items-center justify-center gap-1 mt-2.5 sm:mt-4">
           {BANK_SLIDER_OFFERS.map((_, idx) => (
             <button
               key={idx}
               onClick={() => {
                 if (scrollContainerRef.current) {
-                  scrollContainerRef.current.scrollTo({ left: idx * 360, behavior: 'smooth' });
+                  scrollContainerRef.current.scrollTo({ left: idx * getScrollDistance(), behavior: 'smooth' });
                   setActiveSlideIndex(idx);
                 }
               }}
               className={`h-1.5 rounded-full transition-all ${
                 activeSlideIndex === idx 
-                  ? 'w-6 bg-[#E81E76]' 
-                  : 'w-2 bg-slate-700 hover:bg-slate-500'
+                  ? 'w-5 bg-[#E81E76]' 
+                  : 'w-1.5 bg-slate-700 hover:bg-slate-500'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />

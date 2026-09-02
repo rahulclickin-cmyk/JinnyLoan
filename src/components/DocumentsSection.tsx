@@ -80,25 +80,25 @@ Website: jinnyloan.com | Helpline: +91 8006488006
   };
 
   return (
-    <section id="documents" className="py-14 sm:py-18 bg-slate-50 border-b border-slate-200 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="documents" className="py-6 sm:py-14 bg-slate-50 border-b border-slate-200 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 text-[#E81E76] text-xs font-bold uppercase tracking-wider mb-2">
-            <FileText className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-4 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100 text-[#E81E76] text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1.5">
+            <FileText className="w-3 h-3" />
             <span>Paperwork Made Easy</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
+          <h2 className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
             List of Documents Needed
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Keep these primary documents handy for instant paperless upload or free doorstep verification.
+          <p className="mt-1 text-[11px] sm:text-sm text-slate-600 leading-relaxed">
+            Keep these primary documents handy for instant paperless upload or free doorstep verification
           </p>
         </div>
 
-        {/* Documents Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Documents Cards Grid: 2 cols on mobile */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
           {DOCUMENTS_LIST.map((doc, idx) => {
             const IconComp = getIcon(doc.icon);
             const isChecked = !!checkedDocs[doc.title];
@@ -107,52 +107,48 @@ Website: jinnyloan.com | Helpline: +91 8006488006
               <div
                 key={doc.title}
                 onClick={() => toggleDoc(doc.title)}
-                className={`p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                className={`p-2.5 sm:p-6 rounded-xl sm:rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
                   isChecked
-                    ? 'bg-pink-50/70 border-[#E81E76] shadow-sm'
+                    ? 'bg-pink-50/70 border-[#E81E76] shadow-xs'
                     : 'bg-white border-slate-200 hover:border-pink-300 hover:shadow-2xs'
                 }`}
                 id={`doc-card-${idx}`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                  <div className="flex items-center justify-between mb-2 sm:mb-4">
+                    <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center transition-colors ${
                       isChecked
                         ? 'bg-[#E81E76] text-white'
                         : 'bg-pink-50 text-[#E81E76] border border-pink-100'
                     }`}>
-                      <IconComp className="w-6 h-6" />
+                      <IconComp className="w-4 h-4 sm:w-6 sm:h-6" />
                     </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                        {doc.category}
-                      </span>
-                      <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${
+                    <div className="flex items-center gap-1">
+                      <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded sm:rounded-md border flex items-center justify-center transition-colors ${
                         isChecked
                           ? 'bg-[#E81E76] border-[#E81E76] text-white'
                           : 'border-slate-300 bg-white'
                       }`}>
-                        {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        {isChecked && <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />}
                       </div>
                     </div>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 font-['Outfit',sans-serif]">
+                  <h3 className="text-xs sm:text-base font-bold text-slate-900 font-['Outfit',sans-serif] leading-tight">
                     {doc.title}
                   </h3>
 
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-1 text-[10px] sm:text-sm text-slate-600 leading-snug line-clamp-2 sm:line-clamp-none">
                     {doc.desc}
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                  <span>{isChecked ? 'Marked Ready' : 'Click to mark as ready'}</span>
+                <div className="mt-2 sm:mt-5 pt-1.5 sm:pt-3 border-t border-slate-100 flex items-center justify-between text-[9px] sm:text-[11px] text-slate-500">
+                  <span className="line-clamp-1">{isChecked ? 'Ready' : 'Click to check'}</span>
                   {isChecked && (
-                    <span className="text-[#E81E76] font-bold flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      Ready
+                    <span className="text-[#E81E76] font-bold flex items-center gap-0.5">
+                      <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     </span>
                   )}
                 </div>
@@ -161,33 +157,33 @@ Website: jinnyloan.com | Helpline: +91 8006488006
           })}
 
           {/* Quick Download Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white flex flex-col justify-between border border-slate-700">
+          <div className="col-span-2 lg:col-span-1 p-3 sm:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white flex flex-col justify-between border border-slate-700">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-400 flex items-center justify-center mb-4">
-                <Download className="w-6 h-6" />
+              <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-400 flex items-center justify-center mb-2 sm:mb-4">
+                <Download className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-white font-['Outfit',sans-serif]">
+              <h3 className="text-xs sm:text-lg font-bold text-white font-['Outfit',sans-serif]">
                 Download Offline Checklist
               </h3>
-              <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                Save the complete official documentation checklist for all 100+ partner banks in a handy format.
+              <p className="mt-1 text-[10px] sm:text-xs text-slate-300 leading-snug">
+                Save the complete official documentation checklist for all 100+ partner banks.
               </p>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-3 sm:mt-6">
               <button
                 onClick={handleDownloadChecklist}
-                className="w-full py-3 px-4 bg-[#E81E76] hover:bg-[#c2145e] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 bg-[#E81E76] hover:bg-[#c2145e] text-white font-bold text-[11px] sm:text-xs rounded-lg sm:rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 id="documents-download-btn"
               >
                 {downloadSuccess ? (
                   <>
-                    <Check className="w-4 h-4 text-white" />
+                    <Check className="w-3.5 h-3.5 text-white" />
                     <span>Checklist Downloaded!</span>
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" />
+                    <Download className="w-3.5 h-3.5" />
                     <span>Download Checklist (.TXT)</span>
                   </>
                 )}

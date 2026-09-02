@@ -19,26 +19,26 @@ export const Footer: React.FC<FooterProps> = ({
     <footer className="bg-[#0b0f19] text-slate-300">
       
       {/* Main Footer Body */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 pb-24 md:pb-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12">
           
           {/* Column 1: Brand & Logo */}
-          <div className="space-y-4">
-            <div className="bg-white p-3 rounded-2xl inline-block shadow-md">
+          <div className="col-span-2 sm:col-span-1 space-y-3">
+            <div className="bg-white p-2.5 rounded-xl inline-block shadow-md">
               <JinnyLogo size="md" variant="color" />
             </div>
             
-            <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
+            <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed max-w-xs">
               JinnyLoan is India's leading digital loan marketplace connecting borrowers with 100+ Banks and NBFCs for instant personal, business, home loans & credit cards.
             </p>
 
             {/* Social Media Links */}
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex items-center gap-2.5 pt-1">
               <a 
                 href="https://facebook.com" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-xs font-bold"
+                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-[10px] font-bold"
                 aria-label="Facebook"
               >
                 f
@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href="https://instagram.com" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-xs font-bold"
+                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-[10px] font-bold"
                 aria-label="Instagram"
               >
                 ig
@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href="https://youtube.com" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-xs font-bold"
+                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-[10px] font-bold"
                 aria-label="YouTube"
               >
                 ▶
@@ -65,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-xs font-bold"
+                className="w-7 h-7 rounded-full bg-slate-800 hover:bg-[#E81E76] text-white flex items-center justify-center transition-all text-[10px] font-bold"
                 aria-label="LinkedIn"
               >
                 in
@@ -74,43 +74,43 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Column 2: Company */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
+          <div className="space-y-3">
+            <h3 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
               Company
             </h3>
-            <ul className="space-y-2.5 text-xs">
+            <ul className="space-y-1.5 sm:space-y-2.5 text-[11px] sm:text-xs">
               <li>
-                <a href="#" className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#" className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>Home</span>
                 </a>
               </li>
               <li>
-                <button onClick={onOpenAboutModal} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
+                <button onClick={onOpenAboutModal} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>About Us</span>
                 </button>
               </li>
               <li>
-                <button onClick={onOpenContactModal} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
+                <button onClick={onOpenContactModal} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>Contact Us</span>
                 </button>
               </li>
               <li>
-                <button onClick={onOpenPartnerModal} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
+                <button onClick={onOpenPartnerModal} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer text-left">
                   <span className="text-[#E81E76] font-bold">›</span>
-                  <span>Become a Partner / DSA</span>
+                  <span>Become Partner</span>
                 </button>
               </li>
               <li>
-                <a href="#loan-products" className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#loan-products" className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>Loan Products</span>
                 </a>
               </li>
               <li>
-                <a href="#trending-offers" className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#trending-offers" className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>Trending Offers</span>
                 </a>
@@ -119,62 +119,62 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Column 3: Legal Pages */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
+          <div className="space-y-3">
+            <h3 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
               Legal Pages
             </h3>
-            <ul className="space-y-2.5 text-xs">
+            <ul className="space-y-1.5 sm:space-y-2.5 text-[11px] sm:text-xs">
               <li>
-                <a href="#privacy" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#privacy" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
                   <span>Privacy Policy</span>
                 </a>
               </li>
               <li>
-                <a href="#terms" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#terms" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
-                  <span>Terms & Conditions</span>
+                  <span>Terms of Service</span>
                 </a>
               </li>
               <li>
-                <a href="#disclaimer" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#disclaimer" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
-                  <span>Lending Disclaimers</span>
+                  <span>Disclaimers</span>
                 </a>
               </li>
               <li>
-                <a href="#security" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
+                <a href="#security" onClick={(e) => { e.preventDefault(); onOpenAboutModal(); }} className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors">
                   <span className="text-[#E81E76] font-bold">›</span>
-                  <span>Data Security & Encryption</span>
+                  <span>Data Security</span>
                 </a>
               </li>
             </ul>
           </div>
 
           {/* Column 4: Contact Us */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
+          <div className="col-span-2 sm:col-span-1 space-y-3">
+            <h3 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-['Outfit',sans-serif]">
               Contact Us
             </h3>
-            <div className="space-y-3 text-xs">
+            <div className="space-y-2 text-[11px] sm:text-xs">
               <a 
                 href="tel:+918006488006" 
-                className="flex items-start gap-2.5 text-slate-300 hover:text-white transition-colors"
+                className="flex items-start gap-2 text-slate-300 hover:text-white transition-colors"
               >
-                <Phone className="w-4 h-4 text-[#E81E76] flex-shrink-0 mt-0.5" />
+                <Phone className="w-3.5 h-3.5 text-[#E81E76] flex-shrink-0 mt-0.5" />
                 <span className="font-semibold">+91 8006488006</span>
               </a>
 
               <a 
                 href="mailto:info@jinnyloan.com" 
-                className="flex items-start gap-2.5 text-slate-300 hover:text-white transition-colors"
+                className="flex items-start gap-2 text-slate-300 hover:text-white transition-colors"
               >
-                <Mail className="w-4 h-4 text-[#E81E76] flex-shrink-0 mt-0.5" />
+                <Mail className="w-3.5 h-3.5 text-[#E81E76] flex-shrink-0 mt-0.5" />
                 <span>info@jinnyloan.com</span>
               </a>
 
-              <div className="flex items-start gap-2.5 text-slate-400">
-                <MapPin className="w-4 h-4 text-[#E81E76] flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 text-slate-400">
+                <MapPin className="w-3.5 h-3.5 text-[#E81E76] flex-shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
                   R 123 Gali No 06 Laxminagar Delhi 110092
                 </span>

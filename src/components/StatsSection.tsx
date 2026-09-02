@@ -36,59 +36,59 @@ export const StatsSection: React.FC = () => {
   ];
 
   return (
-    <section id="stats" className="py-12 sm:py-16 bg-white border-b border-slate-200 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="stats" className="py-6 sm:py-14 bg-white border-b border-slate-200 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 text-[#E81E76] text-xs font-bold uppercase tracking-wider mb-2">
-            <Award className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-4 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100 text-[#E81E76] text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1.5">
+            <Award className="w-3 h-3" />
             <span>Proven Track Record</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
+          <h2 className="text-lg sm:text-3xl lg:text-4xl font-extrabold text-[#1e3a8a] tracking-tight font-['Outfit',sans-serif]">
             Trusted by Thousands of Borrowers
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <p className="mt-1 text-[11px] sm:text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto">
             We simplify complex banking paperwork to deliver maximum loan sanctions with minimal turnaround time.
           </p>
         </div>
 
-        {/* 3 Stats Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        {/* 3 Stats Cards Grid: 3 columns on both Mobile and Desktop */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
           {stats.map((item) => {
             const IconComponent = item.icon;
             return (
               <div
                 key={item.id}
                 id={item.id}
-                className="relative bg-slate-50/80 hover:bg-white rounded-2xl p-7 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+                className="relative bg-slate-50/80 hover:bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-6 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 group flex flex-col justify-between text-center sm:text-left"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-tr ${item.color} flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-200`}>
-                      <IconComponent className="w-6 h-6" />
+                  <div className="flex items-center justify-center sm:justify-between mb-2 sm:mb-4">
+                    <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-tr ${item.color} flex items-center justify-center text-white shadow-xs group-hover:scale-110 transition-transform duration-200`}>
+                      <IconComponent className="w-4 h-4 sm:w-6 sm:h-6" />
                     </div>
-                    <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${item.badgeBg}`}>
+                    <span className={`hidden sm:inline-block text-[11px] font-bold px-2.5 py-1 rounded-full border ${item.badgeBg}`}>
                       {item.badge}
                     </span>
                   </div>
 
-                  <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-['Outfit',sans-serif]">
+                  <div className="text-base sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight font-['Outfit',sans-serif]">
                     {item.value}
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-800 mt-1 mb-2">
+                  <h3 className="text-[10px] sm:text-base font-bold text-slate-800 mt-0.5 sm:mt-1 mb-1 leading-tight line-clamp-2">
                     {item.label}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="hidden sm:block text-xs sm:text-sm text-slate-600 leading-relaxed mt-2">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-slate-200/70 flex items-center gap-1.5 text-xs font-semibold text-[#E81E76]">
-                  <CheckCircle className="w-4 h-4 text-[#E81E76]" />
-                  <span>100% Free & Transparent Marketplace</span>
+                <div className="mt-2 sm:mt-4 pt-2 sm:pt-3 border-t border-slate-200/70 hidden sm:flex items-center gap-1.5 text-xs font-semibold text-[#E81E76]">
+                  <CheckCircle className="w-3.5 h-3.5 text-[#E81E76] flex-shrink-0" />
+                  <span className="truncate">100% Free Marketplace</span>
                 </div>
               </div>
             );
@@ -96,19 +96,19 @@ export const StatsSection: React.FC = () => {
         </div>
 
         {/* Trust Badges Ribbon */}
-        <div className="mt-10 p-4 rounded-2xl bg-slate-900 text-white flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <div className="mt-4 sm:mt-8 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+          <div className="flex items-center gap-2">
             <div className="flex text-amber-400">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400" />
+                <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
               ))}
             </div>
-            <span className="text-xs sm:text-sm font-bold">
-              4.9 / 5 Customer Rating across Google & Partner Portals
+            <span className="text-[11px] sm:text-sm font-bold">
+              4.9 / 5 Rating across Portals
             </span>
           </div>
-          <div className="text-xs text-pink-300 font-medium">
-            100+ Banks & NBFCs Lending Marketplace
+          <div className="text-[10px] sm:text-xs text-pink-300 font-medium">
+            100+ RBI-Regulated Bank & NBFC Partners
           </div>
         </div>
 
