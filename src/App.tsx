@@ -4,6 +4,9 @@ import { HeroSection } from './components/HeroSection';
 import { BankOffersSlider } from './components/BankOffersSlider';
 import { StatsSection } from './components/StatsSection';
 import { LoanProductsGrid } from './components/LoanProductsGrid';
+import { LoanOffersSection } from './components/LoanOffersSection';
+import { ExploreCreditCardsSection } from './components/ExploreCreditCardsSection';
+import { MoreRewardsOnCardsSection } from './components/MoreRewardsOnCardsSection';
 import { TrendingOffersSection } from './components/TrendingOffersSection';
 import { CalculatorSection } from './components/CalculatorSection';
 import { BenefitsSection } from './components/BenefitsSection';
@@ -88,7 +91,22 @@ export function App() {
           onOpenApplyModal={handleOpenApplyModal}
         />
 
-        {/* SECTION 5: Trending Loan Offers & Curated Deals */}
+        {/* SECTION 5A: Loan Offers (Horizontal Instant Sanction Cards) */}
+        <LoanOffersSection
+          onOpenApplyModal={handleOpenApplyModal}
+        />
+
+        {/* SECTION 5B: Explore Credit Cards (Cashback & Reward Cards) */}
+        <ExploreCreditCardsSection
+          onOpenApplyModal={handleOpenApplyModal}
+        />
+
+        {/* SECTION 5C: More Rewards on Cards (Promotional Reward Banners) */}
+        <MoreRewardsOnCardsSection
+          onOpenApplyModal={handleOpenApplyModal}
+        />
+
+        {/* SECTION 5D: Trending Loan Offers & Curated Deals (Horizontal Left-to-Right Slider) */}
         <TrendingOffersSection
           onOpenApplyModal={handleOpenApplyModal}
         />

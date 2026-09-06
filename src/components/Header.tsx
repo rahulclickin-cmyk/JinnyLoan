@@ -13,7 +13,10 @@ import {
   UserCheck,
   Building,
   HelpCircle,
-  BarChart3
+  BarChart3,
+  Zap,
+  Gift,
+  Flame
 } from 'lucide-react';
 import { JinnyLogo } from './JinnyLogo';
 
@@ -46,12 +49,13 @@ export const Header: React.FC<HeaderProps> = ({
   // Quick category sub-bar links placed cleanly below header
   const categoryLinks = [
     { label: 'Personal Loan', href: '#loan-products', icon: UserCheck },
-    { label: 'Credit Cards', href: '#loan-products', icon: CreditCard },
-    { label: 'Business Loan', href: '#loan-products', icon: Briefcase },
+    { label: 'Loan Offers', href: '#loan-offers', icon: Zap },
+    { label: 'Credit Cards', href: '#credit-cards', icon: CreditCard },
+    { label: 'Card Rewards', href: '#more-rewards', icon: Gift },
+    { label: 'Trending Offers', href: '#trending-offers', icon: Flame },
     { label: 'Home Loan', href: '#home-loan-details', icon: HomeIcon },
-    { label: 'Loan Against Property', href: '#loan-products', icon: Building },
+    { label: 'Business Loan', href: '#loan-products', icon: Briefcase },
     { label: 'EMI Calculator', href: '#calculator', icon: Calculator },
-    { label: 'Trending Offers', href: '#trending-offers', icon: BarChart3 },
     { label: 'Our Partners', href: '#our-partners', icon: Building },
     { label: 'FAQ', href: '#faq', icon: HelpCircle },
   ];
