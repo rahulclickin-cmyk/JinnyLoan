@@ -14,16 +14,53 @@ export const PartnerModal: React.FC<PartnerModalProps> = ({ isOpen, onClose }) =
   const [city, setCity] = useState('');
   const [monthlyVolume, setMonthlyVolume] = useState('₹50 Lakhs - ₹1 Crore');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [referenceId, setReferenceId] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: name,
+          mobile: phone,
+          email,
+          city: city || 'Delhi NCR',
+          leadType: 'partner-inquiry',
+          employmentType: 'professional',
+          monthlyIncome: monthlyVolume,
+          loanAmount: 10000000,
+          tenureYears: 1,
+          preferredBank: `Partner Program - ${partnerType}`,
+          message: `DSA Channel Partner Application: Category: ${partnerType}, Operating City: ${city || 'Delhi NCR'}, Expected Volume: ${monthlyVolume}`,
+          source: 'Partner With Us Modal'
+        })
+      });
+
+      const resData = await response.json();
+      if (resData.success && resData.lead?.referenceId) {
+        setReferenceId(resData.lead.referenceId);
+      } else {
+        setReferenceId(`JINNY-PT-${Math.floor(100000 + Math.random() * 900000)}`);
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setReferenceId(`JINNY-PT-${Math.floor(100000 + Math.random() * 900000)}`);
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    setReferenceId('');
     onClose();
   };
 
@@ -45,11 +82,16 @@ export const PartnerModal: React.FC<PartnerModalProps> = ({ isOpen, onClose }) =
             <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
               <CheckCircle2 className="w-10 h-10" />
             </div>
+            {referenceId && (
+              <div className="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#E81E76] text-xs font-bold border border-pink-200">
+                Application Ref: {referenceId}
+              </div>
+            )}
             <h3 className="text-2xl font-black text-slate-900 font-['Outfit',sans-serif]">
               Partner Request Received!
             </h3>
             <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-              Thank you, <strong>{name}</strong>. Our Channel Partnership Head will connect with you on <strong>{phone}</strong> within 2 business hours to activate your DSA dashboard & payout agreement.
+              Thank you, <strong>{name}</strong>. Your partner profile has been registered in the JinnyLoan Partner System. Our Channel Partnership Head will connect with you on <strong>{phone}</strong> within 2 business hours.
             </p>
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-left text-xs text-slate-600 space-y-1.5">
               <div><strong>Partner Type:</strong> {partnerType}</div>

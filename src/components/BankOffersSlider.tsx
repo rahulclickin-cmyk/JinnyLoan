@@ -11,9 +11,11 @@ import {
   Percent, 
   Flame,
   CheckCircle2,
-  Gift
+  Gift,
+  ExternalLink
 } from 'lucide-react';
 import { BankLogo } from './BankLogos';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export interface BankOfferSlide {
   id: string;
@@ -168,6 +170,9 @@ export const BANK_SLIDER_OFFERS: BankOfferSlide[] = [
 ];
 
 export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyModal }) => {
+  const { config, handleActionUrl } = useSiteConfig();
+  const offers = (config?.exclusiveOffers || []).filter(o => o?.active !== false);
+
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -192,20 +197,20 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
           setActiveSlideIndex(0);
         } else {
           container.scrollBy({ left: cardWidth, behavior: 'smooth' });
-          setActiveSlideIndex(prev => (prev + 1) % BANK_SLIDER_OFFERS.length);
+          setActiveSlideIndex(prev => (prev + 1) % (offers.length || 1));
         }
       }
     }, 3800); // Gentle 3.8s cadence for relaxing reading
 
     return () => clearInterval(interval);
-  }, [isPlaying, isHovered]);
+  }, [isPlaying, isHovered, offers.length]);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
       const cardWidth = getScrollDistance();
       const index = Math.round(container.scrollLeft / cardWidth);
-      setActiveSlideIndex(Math.min(index, BANK_SLIDER_OFFERS.length - 1));
+      setActiveSlideIndex(Math.min(index, offers.length - 1));
     }
   };
 
@@ -292,7 +297,7 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
           className="flex gap-2 sm:gap-4 lg:gap-6 overflow-x-auto pb-3 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {BANK_SLIDER_OFFERS.map((offer) => (
+          {offers.map((offer) => (
             <div
               key={offer.id}
               className={`flex-shrink-0 w-[180px] xs:w-[205px] sm:w-[280px] md:w-[330px] snap-start rounded-2xl sm:rounded-3xl bg-gradient-to-b ${offer.bgGradient} text-slate-900 p-3 sm:p-5 border-2 ${offer.borderColor} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden`}
@@ -352,18 +357,18 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
                 </div>
               </div>
 
-              {/* Action Button: Claim Offer */}
+              {/* Action Button: Redirects DIRECTLY to configured vendor URL */}
               <div className="mt-2.5 sm:mt-4 pt-2 border-t border-slate-200/80 flex items-center justify-between gap-1">
                 <span className="text-[9px] font-semibold text-slate-500 hidden sm:inline">
-                  0 Consultation Fee
+                  Direct Partner Link
                 </span>
                 <button
-                  onClick={() => onOpenApplyModal(offer.bankName, offer.loanType)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#E81E76] hover:bg-[#c2145e] text-white font-extrabold text-[10px] sm:text-xs rounded-xl shadow-xs transition-all transform active:scale-95 cursor-pointer"
+                  onClick={() => handleActionUrl(offer.externalUrl, () => onOpenApplyModal(offer.bankName, offer.loanType))}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#E81E76] hover:bg-[#c2145e] text-white font-extrabold text-[10px] sm:text-xs rounded-xl shadow-xs transition-all transform active:scale-95 cursor-pointer group"
                   id={`claim-offer-${offer.id}`}
                 >
-                  <span>Claim</span>
-                  <ArrowRight className="w-3 h-3" />
+                  <span>{offer.ctaText || 'Apply Now'}</span>
+                  <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
 
@@ -373,7 +378,7 @@ export const BankOffersSlider: React.FC<BankOffersSliderProps> = ({ onOpenApplyM
 
         {/* Slide Indicator Dots */}
         <div className="flex items-center justify-center gap-1 mt-2.5 sm:mt-4">
-          {BANK_SLIDER_OFFERS.map((_, idx) => (
+          {offers.map((_, idx) => (
             <button
               key={idx}
               onClick={() => {

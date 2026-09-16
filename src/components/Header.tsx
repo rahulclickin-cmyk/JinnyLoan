@@ -19,8 +19,10 @@ import {
   Flame
 } from 'lucide-react';
 import { JinnyLogo } from './JinnyLogo';
+import { useRouter } from '../context/RouterContext';
 
 interface HeaderProps {
+
   onOpenApplyModal: (loanType?: string) => void;
   onOpenContactModal: () => void;
   onOpenAboutModal: () => void;
@@ -35,8 +37,10 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPartnerModal,
   onOpenCalculator
 }) => {
+  const { navigate } = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,15 +143,22 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           {/* Authentic JinnyLoan Logo (Without extra buttons) */}
-          <a href="#" className="flex items-center group focus:outline-none" id="brand-logo" aria-label="JinnyLoan Home">
+          <a 
+            href="#/" 
+            onClick={(e) => { e.preventDefault(); navigate('/'); }}
+            className="flex items-center group focus:outline-none cursor-pointer" 
+            id="brand-logo" 
+            aria-label="JinnyLoan Home"
+          >
             <JinnyLogo size="md" />
           </a>
 
           {/* Clean Primary Desktop Menu: Home, About Us, Contact Us */}
           <div className="hidden md:flex items-center gap-8 font-semibold text-sm text-slate-700">
             <a 
-              href="#" 
-              className="text-[#E81E76] hover:text-[#c2145e] transition-colors font-bold"
+              href="#/" 
+              onClick={(e) => { e.preventDefault(); navigate('/'); }}
+              className="text-[#E81E76] hover:text-[#c2145e] transition-colors font-bold cursor-pointer"
               id="nav-home"
             >
               Home

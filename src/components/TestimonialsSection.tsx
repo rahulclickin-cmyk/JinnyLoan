@@ -1,36 +1,44 @@
 import React from 'react';
 import { Star, Quote, CheckCircle2, User } from 'lucide-react';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export const TestimonialsSection: React.FC = () => {
-  const testimonials = [
-    {
-      id: 1,
-      quote: "Applying for a personal loan with jinny24 was seamless. The team provided great support.",
-      name: "Aman Kumar",
-      location: "Delhi, India",
-      loanType: "Personal Loan",
-      rating: 5,
-      avatarBg: "bg-blue-600"
-    },
-    {
-      id: 2,
-      quote: "I needed funds for a home renovation project, & jinny24 provided personalized loan options.",
-      name: "Abhijit Singh",
-      location: "Noida, UP",
-      loanType: "Home Renovation Loan",
-      rating: 5,
-      avatarBg: "bg-[#E81E76]"
-    },
-    {
-      id: 3,
-      quote: "Thanks to jinnyLoan. I was able to consolidate my debt and lower my monthly payments.",
-      name: "Ritik Kumar",
-      location: "Gurugram, Haryana",
-      loanType: "Debt Consolidation",
-      rating: 5,
-      avatarBg: "bg-emerald-600"
-    }
-  ];
+  const { config } = useSiteConfig();
+
+  const testimonials = (config.testimonials && config.testimonials.length > 0)
+    ? config.testimonials.filter(t => t.active !== false)
+    : [
+        {
+          id: 't1',
+          quote: "Applying for a personal loan with jinny24 was seamless. The team provided great support.",
+          name: "Aman Kumar",
+          location: "Delhi, India",
+          loanType: "Personal Loan",
+          rating: 5,
+          avatarBg: "bg-blue-600",
+          active: true
+        },
+        {
+          id: 't2',
+          quote: "I needed funds for a home renovation project, & jinny24 provided personalized loan options.",
+          name: "Abhijit Singh",
+          location: "Noida, UP",
+          loanType: "Home Renovation Loan",
+          rating: 5,
+          avatarBg: "bg-[#E81E76]",
+          active: true
+        },
+        {
+          id: 't3',
+          quote: "Thanks to jinnyLoan. I was able to consolidate my debt and lower my monthly payments.",
+          name: "Ritik Kumar",
+          location: "Gurugram, Haryana",
+          loanType: "Debt Consolidation",
+          rating: 5,
+          avatarBg: "bg-emerald-600",
+          active: true
+        }
+      ];
 
   return (
     <section id="testimonials" className="py-6 sm:py-14 bg-white border-b border-slate-200">

@@ -7,9 +7,11 @@ import {
   Sparkles, 
   ShieldCheck, 
   Gift,
-  CheckCircle2
+  CheckCircle2,
+  ExternalLink
 } from 'lucide-react';
 import { CreditCardVisual } from './CreditCardVisual';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export interface CreditCardItem {
   id: string;
@@ -29,77 +31,12 @@ interface ExploreCreditCardsSectionProps {
   onOpenApplyModal: (cardName?: string) => void;
 }
 
-const CREDIT_CARDS: CreditCardItem[] = [
-  {
-    id: 'hdfc-millennia',
-    title: 'HDFC Millennia Credit Card',
-    bank: 'HDFC Bank',
-    promoted: true,
-    badge: 'PROMOTED',
-    benefitText: '5% Cashback on Amazon, Flipkart, Myntra, Swiggy & Zomato spends.',
-    annualFee: '₹1,000 (Waived on ₹1L spend)',
-    bestFor: 'Shopping & Dining',
-    network: 'visa',
-    gradient: 'bg-gradient-to-tr from-[#002f6c] via-[#004c8f] to-[#1e3a8a]',
-    chipColor: '#fcd34d'
-  },
-  {
-    id: 'axis-ace',
-    title: 'Axis Bank ACE Credit Card',
-    bank: 'Axis Bank',
-    promoted: false,
-    badge: 'BEST CASHBACK',
-    benefitText: '2% Unlimited Cashback on all spends & 5% on Google Pay Bill Payments.',
-    annualFee: '₹499 (Waived on ₹10k spend in 45d)',
-    bestFor: 'Utility & Bills',
-    network: 'visa',
-    gradient: 'bg-gradient-to-tr from-[#54021e] via-[#97144D] to-[#380214]',
-    chipColor: '#fef08a'
-  },
-  {
-    id: 'sbi-simplyclick',
-    title: 'SBI SimplyCLICK Credit Card',
-    bank: 'State Bank of India',
-    promoted: true,
-    badge: 'PROMOTED',
-    benefitText: '10X Reward Points on partner online shopping + ₹500 Amazon Gift Voucher.',
-    annualFee: '₹499 (Reversed on ₹1L spend)',
-    bestFor: 'Online Spends',
-    network: 'visa',
-    gradient: 'bg-gradient-to-tr from-[#003756] via-[#0080BD] to-[#01253a]',
-    chipColor: '#e2e8f0'
-  },
-  {
-    id: 'icici-amazon-pay',
-    title: 'Amazon Pay ICICI Card',
-    bank: 'ICICI Bank',
-    promoted: false,
-    badge: 'LIFETIME FREE',
-    benefitText: 'Lifetime Free card with 5% Unlimited Cashback on Amazon Prime purchases.',
-    annualFee: '₹0 (Zero Joining & Annual Fee)',
-    bestFor: 'Amazon & Travel',
-    network: 'visa',
-    gradient: 'bg-gradient-to-tr from-[#18181b] via-[#27272a] to-[#09090b]',
-    chipColor: '#fbbf24'
-  },
-  {
-    id: 'kotak-league',
-    title: 'Kotak League Platinum Card',
-    bank: 'Kotak Mahindra Bank',
-    promoted: false,
-    badge: 'REWARD SPECIAL',
-    benefitText: '8X Reward Points on apparel, travel & 4 free PVR movie tickets every quarter.',
-    annualFee: '₹500 (Free for salary account)',
-    bestFor: 'Movies & Apparel',
-    network: 'rupay',
-    gradient: 'bg-gradient-to-tr from-[#7f1d1d] via-[#ED1C24] to-[#450a0a]',
-    chipColor: '#fef08a'
-  }
-];
-
 export const ExploreCreditCardsSection: React.FC<ExploreCreditCardsSectionProps> = ({
   onOpenApplyModal
 }) => {
+  const { config, handleActionUrl } = useSiteConfig();
+  const creditCards = (config?.creditCards || []).filter(c => c?.active !== false);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -128,6 +65,7 @@ export const ExploreCreditCardsSection: React.FC<ExploreCreditCardsSectionProps>
       setTimeout(checkScroll, 350);
     }
   };
+
 
   return (
     <section id="credit-cards" className="py-6 sm:py-12 bg-slate-50 border-b border-slate-200 relative">
@@ -183,7 +121,7 @@ export const ExploreCreditCardsSection: React.FC<ExploreCreditCardsSectionProps>
           onScroll={checkScroll}
           className="flex items-stretch gap-3 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-0.5 scrollbar-none"
         >
-          {CREDIT_CARDS.map((card) => (
+          {creditCards.map((card) => (
             <div
               key={card.id}
               id={`credit-card-${card.id}`}
@@ -237,15 +175,19 @@ export const ExploreCreditCardsSection: React.FC<ExploreCreditCardsSectionProps>
                 </div>
               </div>
 
-              {/* CTA Button: "Get now" */}
+              {/* CTA Button */}
               <div className="pt-4">
                 <button
-                  onClick={() => onOpenApplyModal(`Credit Card - ${card.title}`)}
+                  onClick={() => handleActionUrl(card.externalUrl, () => onOpenApplyModal(`Credit Card - ${card.title}`))}
                   className="w-full py-2 sm:py-2.5 px-4 bg-[#E81E76] hover:bg-[#c2145e] text-white text-xs sm:text-sm font-extrabold rounded-xl shadow-xs transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-1.5 cursor-pointer"
                   id={`btn-get-now-${card.id}`}
                 >
-                  <span>Get now</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  <span>{card.ctaText || 'Apply Now'}</span>
+                  {card.externalUrl ? (
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  )}
                 </button>
               </div>
 

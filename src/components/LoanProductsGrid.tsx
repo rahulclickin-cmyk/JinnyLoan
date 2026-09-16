@@ -8,8 +8,11 @@ import {
   Coins, 
   ChevronRight,
   ShieldCheck,
-  Zap
+  Zap,
+  ExternalLink
 } from 'lucide-react';
+import { useRouter } from '../context/RouterContext';
+import { useSiteConfig } from '../context/ConfigContext';
 
 interface LoanProductsGridProps {
   onOpenApplyModal: (loanType: string) => void;
@@ -18,6 +21,16 @@ interface LoanProductsGridProps {
 export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
   onOpenApplyModal
 }) => {
+  const { navigate } = useRouter();
+  const { config, handleActionUrl } = useSiteConfig();
+
+  // Find dynamic category configs if available
+  const personalLoanCat = config?.popularCategories?.find(c => c.slug === '/personal-loan');
+  const creditCardCat = config?.popularCategories?.find(c => c.slug === '/credit-card');
+  const businessLoanCat = config?.popularCategories?.find(c => c.slug === '/business-loan');
+  const homeLoanCat = config?.popularCategories?.find(c => c.slug === '/home-loan');
+  const lapCat = config?.popularCategories?.find(c => c.slug === '/loan-against-property');
+
   return (
     <section id="loan-products" className="py-6 sm:py-14 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -37,7 +50,13 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
           
           {/* 1. Personal Loan */}
           <div 
-            onClick={() => onOpenApplyModal('Personal Loan')}
+            onClick={() => {
+              if (personalLoanCat?.startDestination && personalLoanCat.startDestination.startsWith('http')) {
+                handleActionUrl(personalLoanCat.startDestination);
+              } else {
+                navigate(personalLoanCat?.exploreDestination || '/personal-loan');
+              }
+            }}
             className="group relative bg-gradient-to-br from-[#E81E76] via-[#d61266] to-[#9d0248] rounded-xl sm:rounded-2xl p-3 sm:p-6 text-white shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[130px] sm:min-h-[200px]"
             id="product-card-personal-loan"
           >
@@ -46,13 +65,13 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
             <div className="flex items-start justify-between relative z-10">
               <div>
                 <span className="inline-block px-1.5 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[11px] font-bold bg-white/20 text-white backdrop-blur-xs mb-1 sm:mb-2">
-                  Instant Cash
+                  {personalLoanCat?.badge || 'Instant Cash'}
                 </span>
                 <h3 className="text-sm sm:text-2xl font-bold tracking-tight text-white font-['Outfit',sans-serif] leading-tight">
-                  Personal Loan
+                  {personalLoanCat?.title || 'Personal Loan'}
                 </h3>
                 <p className="text-[10px] sm:text-xs text-pink-100 mt-0.5 sm:mt-1 hidden sm:block max-w-[200px]">
-                  Funds up to ₹10 Lakhs for medical, wedding or emergency needs.
+                  {personalLoanCat?.subtitle || 'Funds up to ₹10 Lakhs for medical, wedding or emergency needs.'}
                 </p>
               </div>
 
@@ -63,20 +82,38 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
 
             <div className="pt-2 sm:pt-4 flex items-center justify-between border-t border-white/15 relative z-10 mt-2">
               <span className="text-[9px] sm:text-xs font-semibold text-pink-100">
-                From <strong className="text-white">10.49%</strong>
+                From <strong className="text-white">{personalLoanCat?.rateOrStat || '10.49%'}</strong>
               </span>
               <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (personalLoanCat?.startDestination && personalLoanCat.startDestination.startsWith('http')) {
+                    handleActionUrl(personalLoanCat.startDestination);
+                  } else {
+                    navigate(personalLoanCat?.exploreDestination || '/personal-loan');
+                  }
+                }}
                 className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white text-[#E81E76] flex items-center justify-center group-hover:bg-yellow-300 group-hover:text-slate-900 transition-colors shadow-xs"
-                aria-label="Apply for Personal Loan"
+                aria-label="View Personal Loans"
               >
-                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                {personalLoanCat?.startDestination?.startsWith('http') ? (
+                  <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                ) : (
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                )}
               </button>
             </div>
           </div>
 
           {/* 2. Credit Cards */}
           <div 
-            onClick={() => onOpenApplyModal('Credit Card')}
+            onClick={() => {
+              if (creditCardCat?.startDestination && creditCardCat.startDestination.startsWith('http')) {
+                handleActionUrl(creditCardCat.startDestination);
+              } else {
+                navigate(creditCardCat?.exploreDestination || '/credit-card');
+              }
+            }}
             className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-black rounded-xl sm:rounded-2xl p-3 sm:p-6 text-white shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[130px] sm:min-h-[200px] border border-slate-700/60"
             id="product-card-credit-card"
           >
@@ -85,13 +122,13 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
             <div className="flex items-start justify-between relative z-10">
               <div>
                 <span className="inline-block px-1.5 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[11px] font-bold bg-purple-500/30 text-purple-200 border border-purple-400/30 mb-1 sm:mb-2">
-                  Rewards
+                  {creditCardCat?.badge || 'Rewards'}
                 </span>
                 <h3 className="text-sm sm:text-2xl font-bold tracking-tight text-white font-['Outfit',sans-serif] leading-tight">
-                  Credit Cards
+                  {creditCardCat?.title || 'Credit Cards'}
                 </h3>
                 <p className="text-[10px] sm:text-xs text-slate-300 mt-0.5 sm:mt-1 hidden sm:block max-w-[200px]">
-                  Lifetime free cards with airport lounge access & 5% cashback.
+                  {creditCardCat?.subtitle || 'Lifetime free cards with airport lounge access & 5% cashback.'}
                 </p>
               </div>
 
@@ -102,20 +139,32 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
 
             <div className="pt-2 sm:pt-4 flex items-center justify-between border-t border-slate-700/80 relative z-10 mt-2">
               <span className="text-[9px] sm:text-xs font-semibold text-slate-300">
-                <strong className="text-white">40+ Cards</strong>
+                <strong className="text-white">{creditCardCat?.rateOrStat || '40+ Cards'}</strong>
               </span>
               <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (creditCardCat?.startDestination && creditCardCat.startDestination.startsWith('http')) {
+                    handleActionUrl(creditCardCat.startDestination);
+                  } else {
+                    navigate(creditCardCat?.exploreDestination || '/credit-card');
+                  }
+                }}
                 className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-700 text-white group-hover:bg-[#E81E76] transition-colors flex items-center justify-center shadow-xs"
-                aria-label="Apply for Credit Cards"
+                aria-label="View Credit Cards"
               >
-                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                {creditCardCat?.startDestination?.startsWith('http') ? (
+                  <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                ) : (
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                )}
               </button>
             </div>
           </div>
 
           {/* 3. Business Loan */}
           <div 
-            onClick={() => onOpenApplyModal('Business Loan')}
+            onClick={() => navigate(businessLoanCat?.exploreDestination || '/business-loan')}
             className="group relative bg-gradient-to-br from-[#1e40af] via-[#1d4ed8] to-[#0284c7] rounded-xl sm:rounded-2xl p-3 sm:p-6 text-white shadow-md hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[130px] sm:min-h-[200px] col-span-2 md:col-span-1"
             id="product-card-business-loan"
           >
@@ -124,13 +173,13 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
             <div className="flex items-start justify-between relative z-10">
               <div>
                 <span className="inline-block px-1.5 sm:px-2.5 py-0.5 rounded text-[9px] sm:text-[11px] font-bold bg-white/20 text-white backdrop-blur-xs mb-1 sm:mb-2">
-                  MSME Growth
+                  {businessLoanCat?.badge || 'MSME Growth'}
                 </span>
                 <h3 className="text-sm sm:text-2xl font-bold tracking-tight text-white font-['Outfit',sans-serif] leading-tight">
-                  Business Loan
+                  {businessLoanCat?.title || 'Business Loan'}
                 </h3>
                 <p className="text-[10px] sm:text-xs text-blue-100 mt-0.5 sm:mt-1 hidden sm:block max-w-[200px]">
-                  Collateral-free working capital & machinery loans up to ₹50 Lakhs.
+                  {businessLoanCat?.subtitle || 'Collateral-free working capital & machinery loans up to ₹50 Lakhs.'}
                 </p>
               </div>
 
@@ -141,9 +190,17 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
 
             <div className="pt-2 sm:pt-4 flex items-center justify-between border-t border-white/15 relative z-10 mt-2">
               <span className="text-[9px] sm:text-xs font-semibold text-blue-100">
-                In <strong className="text-white">48 Hours</strong>
+                In <strong className="text-white">{businessLoanCat?.rateOrStat || '48 Hours'}</strong>
               </span>
               <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (businessLoanCat?.startDestination && businessLoanCat.startDestination.startsWith('http')) {
+                    handleActionUrl(businessLoanCat.startDestination);
+                  } else {
+                    navigate(businessLoanCat?.exploreDestination || '/business-loan');
+                  }
+                }}
                 className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white text-[#1d4ed8] flex items-center justify-center group-hover:bg-emerald-400 group-hover:text-slate-900 transition-colors shadow-xs"
                 aria-label="Apply for Business Loan"
               >
@@ -154,62 +211,104 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
 
         </div>
 
-        {/* Bottom 2 Products Row: 2 Cols on Both Mobile & Desktop */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-6" id="home-loan-details">
+        {/* Bottom 2 Products Row: Home Loan & Loan Against Property (Secured Lead Gen, Prominently Styled) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6" id="home-loan-details">
           
-          {/* Home Loan Card */}
+          {/* Home Loan Card: Attractive Pink/Rose Gradient Card */}
           <div 
-            onClick={() => onOpenApplyModal('Home Loan')}
-            className="group relative bg-white border-2 border-slate-100 hover:border-pink-200 rounded-xl sm:rounded-2xl p-2.5 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 cursor-pointer"
+            onClick={() => navigate(homeLoanCat?.exploreDestination || '/home-loan')}
+            className="group relative bg-gradient-to-r from-pink-50 via-rose-50 to-white border-2 border-pink-200 hover:border-[#E81E76] rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer overflow-hidden"
             id="product-card-home-loan"
           >
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-8 h-8 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl bg-pink-50 border border-pink-100 flex items-center justify-center text-[#E81E76] flex-shrink-0">
-                <Home className="w-4 h-4 sm:w-7 sm:h-7 text-[#E81E76]" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-[#E81E76]/10 rounded-full blur-xl pointer-events-none" />
+            
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#E81E76] text-white flex items-center justify-center shadow-md shadow-pink-500/20 flex-shrink-0 group-hover:scale-105 transition-transform">
+                <Home className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <span className="text-[8px] sm:text-[11px] font-bold text-[#E81E76] uppercase tracking-wider block">
-                  Lowest Rates
-                </span>
-                <h4 className="text-xs sm:text-xl font-black text-slate-900 font-['Outfit',sans-serif] leading-tight">
-                  Home Loan
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] sm:text-xs font-bold text-white bg-[#E81E76] px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                    {homeLoanCat?.badge || 'Lowest Rates'}
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-semibold hidden sm:inline">
+                    Dedicated Expert Assistance
+                  </span>
+                </div>
+                <h4 className="text-base sm:text-2xl font-black text-slate-900 font-['Outfit',sans-serif] leading-tight mt-1">
+                  {homeLoanCat?.title || 'Home Loan'}
                 </h4>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-700 mt-0.5">
-                  <span className="text-[#E81E76] font-extrabold text-[11px] sm:text-sm">7.75%*</span>
+                <p className="text-xs font-bold text-slate-700 mt-0.5">
+                  Interest starting from <span className="text-[#E81E76] font-extrabold text-sm sm:text-base">{homeLoanCat?.rateOrStat || '7.10%*'}</span>
+                </p>
+                <p className="text-[11px] text-slate-500 mt-1 hidden sm:block">
+                  {homeLoanCat?.subtitle || 'Zero foreclosure charges & flexible tenure up to 30 years.'}
                 </p>
               </div>
             </div>
 
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#1e40af] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#E81E76] transition-all self-end sm:self-center shadow-xs">
-              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            <div className="flex items-center gap-2 self-end sm:self-center relative z-10">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenApplyModal('Home Loan');
+                }}
+                className="px-3.5 py-2 bg-white hover:bg-[#E81E76] text-[#E81E76] hover:text-white border border-pink-300 font-bold text-xs rounded-xl shadow-xs transition-all"
+              >
+                Inquire Now
+              </button>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#1e40af] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#E81E76] transition-all shadow-xs">
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
             </div>
           </div>
 
-          {/* Loan Against Property (LAP) */}
+          {/* Loan Against Property (LAP): Attractive Blue/Indigo Gradient Card */}
           <div 
-            onClick={() => onOpenApplyModal('Loan Against Property')}
-            className="group relative bg-white border-2 border-slate-100 hover:border-blue-200 rounded-xl sm:rounded-2xl p-2.5 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 cursor-pointer"
+            onClick={() => navigate(lapCat?.exploreDestination || '/loan-against-property')}
+            className="group relative bg-gradient-to-r from-blue-50 via-indigo-50 to-white border-2 border-blue-200 hover:border-[#1d4ed8] rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer overflow-hidden"
             id="product-card-lap"
           >
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-8 h-8 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#1d4ed8] flex-shrink-0">
-                <Building2 className="w-4 h-4 sm:w-7 sm:h-7 text-[#1d4ed8]" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
+
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#1d4ed8] text-white flex items-center justify-center shadow-md shadow-blue-500/20 flex-shrink-0 group-hover:scale-105 transition-transform">
+                <Building2 className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <span className="text-[8px] sm:text-[11px] font-bold text-[#1d4ed8] uppercase tracking-wider block">
-                  Secured Loan
-                </span>
-                <h4 className="text-xs sm:text-xl font-black text-slate-900 font-['Outfit',sans-serif] leading-tight">
-                  Against Property
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] sm:text-xs font-bold text-white bg-[#1d4ed8] px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                    {lapCat?.badge || 'Secured Loan'}
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-semibold hidden sm:inline">
+                    High Valuation Funding
+                  </span>
+                </div>
+                <h4 className="text-base sm:text-2xl font-black text-slate-900 font-['Outfit',sans-serif] leading-tight mt-1">
+                  {lapCat?.title || 'Loan Against Property'}
                 </h4>
-                <p className="text-[10px] sm:text-xs font-bold text-slate-700 mt-0.5">
-                  <span className="text-[#1d4ed8] font-extrabold text-[11px] sm:text-sm">7.75%*</span>
+                <p className="text-xs font-bold text-slate-700 mt-0.5">
+                  Interest starting from <span className="text-[#1d4ed8] font-extrabold text-sm sm:text-base">{lapCat?.rateOrStat || '7.75%*'}</span>
+                </p>
+                <p className="text-[11px] text-slate-500 mt-1 hidden sm:block">
+                  {lapCat?.subtitle || 'Unlock maximum property equity up to ₹15 Crores at lowest commercial interest.'}
                 </p>
               </div>
             </div>
 
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#1e40af] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#1d4ed8] transition-all self-end sm:self-center shadow-xs">
-              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            <div className="flex items-center gap-2 self-end sm:self-center relative z-10">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenApplyModal('Loan Against Property');
+                }}
+                className="px-3.5 py-2 bg-white hover:bg-[#1d4ed8] text-[#1d4ed8] hover:text-white border border-blue-300 font-bold text-xs rounded-xl shadow-xs transition-all"
+              >
+                Inquire Now
+              </button>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#1e40af] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#1d4ed8] transition-all shadow-xs">
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
             </div>
           </div>
 

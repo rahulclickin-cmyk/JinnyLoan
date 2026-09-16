@@ -7,14 +7,17 @@ interface FooterProps {
   onOpenContactModal: () => void;
   onOpenApplyModal: () => void;
   onOpenPartnerModal?: () => void;
+  onOpenAdminModal?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenAboutModal,
   onOpenContactModal,
   onOpenApplyModal,
-  onOpenPartnerModal
+  onOpenPartnerModal,
+  onOpenAdminModal
 }) => {
+
   return (
     <footer className="bg-[#0b0f19] text-slate-300">
       
@@ -188,7 +191,19 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Bottom Pink/Coral Copyright Bar matching Screenshot */}
       <div className="bg-[#E81E76] text-white text-xs py-3 px-4 text-center font-medium">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>Copyright © 2026 Jinny24 All rights reserved.</span>
+          <div className="flex items-center gap-2">
+            <span>Copyright © 2026 Jinny24 All rights reserved.</span>
+            {onOpenAdminModal && (
+              <button 
+                onClick={onOpenAdminModal}
+                className="text-pink-200 hover:text-white underline text-[11px] transition-colors cursor-pointer ml-2"
+                id="footer-admin-trigger"
+                title="Open Partner and Content Configuration"
+              >
+                ⚙️ Admin Config
+              </button>
+            )}
+          </div>
           <span className="text-pink-100 text-[11px]">
             JinnyLoan is a digital loan comparison marketplace. All loans are disbursed by RBI regulated partner banks & NBFCs.
           </span>

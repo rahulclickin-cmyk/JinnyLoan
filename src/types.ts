@@ -43,7 +43,10 @@ export interface LeadApplicationData {
   loanAmount: number;
   tenureYears: number;
   preferredBank: string;
-  propertyIdentified: 'yes' | 'no' | 'in-progress';
+  propertyIdentified?: 'yes' | 'no' | 'in-progress';
+  propertyType?: string;
+  propertyEstimatedValue?: number;
+  leadType?: 'home-loan' | 'loan-against-property' | 'partner-inquiry' | 'general-loan';
   message?: string;
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle, Phone, Mail, MessageSquare } from 'lucide-react';
+import { useSiteConfig } from '../context/ConfigContext';
 
 interface FaqSectionProps {
   onOpenContactModal?: () => void;
@@ -8,34 +9,55 @@ interface FaqSectionProps {
 export const FaqSection: React.FC<FaqSectionProps> = ({
   onOpenContactModal
 }) => {
+  const { config } = useSiteConfig();
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First item expanded by default as in screenshot
 
-  const faqs = [
-    {
-      question: 'Q. What is JinnyLoan.com ?',
-      answer: 'JinnyLoan is a digital platform providing accessible financial services to all. It leverages technology to offer customized financial products like Personal loans, Business Loan, Home Loan & Credit Cards through its lending partners. we have tie-up more than 100 + Banks and NBFCs.'
-    },
-    {
-      question: 'Q. What are the features & benefits of JinnyLoan digital lending platform ?',
-      answer: 'JinnyLoan offers 100% digital paperless processing, instant pre-approval, zero hidden charges, comparison across 100+ Banks & NBFCs, lowest interest rate guarantee, and dedicated relationship manager support until final disbursement.'
-    },
-    {
-      question: 'Q. What are the documents required to apply for a loan ?',
-      answer: 'Basic KYC documents including PAN Card, Aadhaar Card / Voter ID, last 3 to 6 months bank account statements, salary slips (for salaried borrowers) or ITR with balance sheet (for self-employed / business applicants).'
-    },
-    {
-      question: 'Q. Can I borrow any amount that I required up till Rs.10lakh ?',
-      answer: 'Yes, you can borrow any required amount starting from ₹25,000 up to ₹10 Lakh for personal/unsecured loans, and up to ₹10 Crore+ for Home Loans and Loan Against Property based on your income eligibility and credit profile.'
-    },
-    {
-      question: 'Q. What is the minimum credit score requirement to avail the loan ?',
-      answer: 'A CIBIL credit score of 700 or above is ideal to get the lowest interest rates and highest sanction amounts. However, we also have lending partners who consider applicants with lower or new-to-credit (NTC) scores.'
-    },
-    {
-      question: 'Q. How Contact JinnyLoan if I can face any issue with the website ?',
-      answer: 'You can contact our customer support team directly at +91 8006488006 or email us at info@jinnyloan.com (Monday to Saturday, 10:00 AM to 7:00 PM). You can also click on the "Loan Inquiry" button on the website for instant assistance.'
-    }
-  ];
+  const faqs = (config.faqs && config.faqs.length > 0)
+    ? config.faqs.filter(f => f.active !== false)
+    : [
+        {
+          id: 'f1',
+          question: 'Q. What is JinnyLoan.com ?',
+          answer: 'JinnyLoan is a digital platform providing accessible financial services to all. It leverages technology to offer customized financial products like Personal loans, Business Loan, Home Loan & Credit Cards through its lending partners. we have tie-up more than 100 + Banks and NBFCs.',
+          order: 1,
+          active: true
+        },
+        {
+          id: 'f2',
+          question: 'Q. What are the features & benefits of JinnyLoan digital lending platform ?',
+          answer: 'JinnyLoan offers 100% digital paperless processing, instant pre-approval, zero hidden charges, comparison across 100+ Banks & NBFCs, lowest interest rate guarantee, and dedicated relationship manager support until final disbursement.',
+          order: 2,
+          active: true
+        },
+        {
+          id: 'f3',
+          question: 'Q. What are the documents required to apply for a loan ?',
+          answer: 'Basic KYC documents including PAN Card, Aadhaar Card / Voter ID, last 3 to 6 months bank account statements, salary slips (for salaried borrowers) or ITR with balance sheet (for self-employed / business applicants).',
+          order: 3,
+          active: true
+        },
+        {
+          id: 'f4',
+          question: 'Q. Can I borrow any amount that I required up till Rs.10lakh ?',
+          answer: 'Yes, you can borrow any required amount starting from ₹25,000 up to ₹10 Lakh for personal/unsecured loans, and up to ₹10 Crore+ for Home Loans and Loan Against Property based on your income eligibility and credit profile.',
+          order: 4,
+          active: true
+        },
+        {
+          id: 'f5',
+          question: 'Q. What is the minimum credit score requirement to avail the loan ?',
+          answer: 'A CIBIL credit score of 700 or above is ideal to get the lowest interest rates and highest sanction amounts. However, we also have lending partners who consider applicants with lower or new-to-credit (NTC) scores.',
+          order: 5,
+          active: true
+        },
+        {
+          id: 'f6',
+          question: 'Q. How Contact JinnyLoan if I can face any issue with the website ?',
+          answer: 'You can contact our customer support team directly at +91 8006488006 or email us at info@jinnyloan.com (Monday to Saturday, 10:00 AM to 7:00 PM). You can also click on the "Loan Inquiry" button on the website for instant assistance.',
+          order: 6,
+          active: true
+        }
+      ];
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

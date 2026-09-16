@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { BankOffersSlider } from './components/BankOffersSlider';
@@ -9,12 +9,6 @@ import { ExploreCreditCardsSection } from './components/ExploreCreditCardsSectio
 import { MoreRewardsOnCardsSection } from './components/MoreRewardsOnCardsSection';
 import { TrendingOffersSection } from './components/TrendingOffersSection';
 import { CalculatorSection } from './components/CalculatorSection';
-import { BenefitsSection } from './components/BenefitsSection';
-import { EligibilitySection } from './components/EligibilitySection';
-import { ChargesSection } from './components/ChargesSection';
-import { DocumentsSection } from './components/DocumentsSection';
-import { StepsSection } from './components/StepsSection';
-import { BankComparisonSection } from './components/BankComparisonSection';
 import { OurPartnersSection } from './components/OurPartnersSection';
 import { PartnerWithUsBanner } from './components/PartnerWithUsBanner';
 import { TestimonialsSection } from './components/TestimonialsSection';
@@ -26,18 +20,44 @@ import { ContactModal } from './components/ContactModal';
 import { PartnerModal } from './components/PartnerModal';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { MessageSquare } from 'lucide-react';
+import { useRouter } from './context/RouterContext';
+import { ProductPage } from './components/pages/ProductPage';
+import { PRODUCT_PAGES_DATA } from './data/productPagesData';
+import { AdminConfigModal } from './components/admin/AdminConfigModal';
 
 export function App() {
+  const { currentPath, navigate, isHome } = useRouter();
+
   // Modal states
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   // Prefilled parameters for Apply Modal
   const [selectedBank, setSelectedBank] = useState<string | undefined>(undefined);
   const [selectedAmount, setSelectedAmount] = useState<number | undefined>(undefined);
   const [selectedTenure, setSelectedTenure] = useState<number | undefined>(undefined);
+
+  // Keyboard shortcut listener for Admin modal (Ctrl + Shift + A or Alt + Shift + A)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey || e.altKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        setIsAdminModalOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Listen to #/admin or /admin path
+  useEffect(() => {
+    if (currentPath === '/admin') {
+      setIsAdminModalOpen(true);
+    }
+  }, [currentPath]);
 
   const handleOpenApplyModal = (bankName?: string) => {
     setSelectedBank(bankName);
@@ -58,6 +78,10 @@ export function App() {
     }
   };
 
+  // Determine if current path is a product page
+  const normalizedPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
+  const productData = PRODUCT_PAGES_DATA[normalizedPath];
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] flex flex-col selection:bg-[#E81E76] selection:text-white pb-16 md:pb-0">
       
@@ -69,99 +93,78 @@ export function App() {
         onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
       />
 
-      {/* Main Content Sections */}
+      {/* Main Content Sections: Product Page or Main Landing Page */}
       <main className="flex-grow">
-        
-        {/* SECTION 1: Hero / Banner */}
-        <HeroSection
-          onOpenApplyModal={handleOpenApplyModal}
-          onNavigateToCalculator={scrollToCalculator}
-        />
+        {productData ? (
+          <ProductPage 
+            data={productData} 
+            onOpenApplyModal={handleOpenApplyModal} 
+          />
+        ) : (
+          <>
+            {/* SECTION 1: Hero / Banner */}
+            <HeroSection
+              onOpenApplyModal={handleOpenApplyModal}
+              onNavigateToCalculator={scrollToCalculator}
+            />
 
-        {/* SECTION 2: Live Bank Offers Slider (Gently & Slowly Sliding Bank Deals) */}
-        <BankOffersSlider
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 2: Live Bank Offers Slider (Gently & Slowly Sliding Bank Deals) */}
+            <BankOffersSlider
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 3: Trusted by Thousands (Stats cards) */}
-        <StatsSection />
+            {/* SECTION 3: Trusted by Thousands (Stats cards) */}
+            <StatsSection />
 
-        {/* SECTION 4: Explore Loan Products Grid */}
-        <LoanProductsGrid
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 4: Explore Loan Products Grid */}
+            <LoanProductsGrid
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 5A: Loan Offers (Horizontal Instant Sanction Cards) */}
-        <LoanOffersSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 5A: Loan Offers (Horizontal Instant Sanction Cards) */}
+            <LoanOffersSection
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 5B: Explore Credit Cards (Cashback & Reward Cards) */}
-        <ExploreCreditCardsSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 5B: Explore Credit Cards (Cashback & Reward Cards) */}
+            <ExploreCreditCardsSection
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 5C: More Rewards on Cards (Promotional Reward Banners) */}
-        <MoreRewardsOnCardsSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 5C: More Rewards on Cards (Promotional Reward Banners) */}
+            <MoreRewardsOnCardsSection
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 5D: Trending Loan Offers & Curated Deals (Horizontal Left-to-Right Slider) */}
-        <TrendingOffersSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
+            {/* SECTION 5D: Trending Loan Offers & Curated Deals (Horizontal Left-to-Right Slider) */}
+            <TrendingOffersSection
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 6: Home Loan Calculator (Interactive inputs, EMI/totals, schedule) */}
-        <CalculatorSection
-          onOpenApplyModalWithDetails={handleOpenApplyWithCalculatorDetails}
-        />
+            {/* SECTION 6: Home Loan Calculator (Interactive inputs, EMI/totals, schedule) */}
+            <CalculatorSection
+              onOpenApplyModalWithDetails={handleOpenApplyWithCalculatorDetails}
+            />
 
-        {/* SECTION 7: Benefits of a Loan through JinnyLoan */}
-        <BenefitsSection
-          onOpenApplyModal={() => handleOpenApplyModal()}
-        />
+            {/* SECTION 7: 100+ Partner Lending Institutions */}
+            <OurPartnersSection
+              onOpenApplyModal={handleOpenApplyModal}
+            />
 
-        {/* SECTION 8: Eligibility Criteria for Loans (Salaried vs Self-Employed + Estimator) */}
-        <EligibilitySection
-          onOpenApplyModal={() => handleOpenApplyModal()}
-        />
+            {/* SECTION 14: Partner With Us / DSA Connector Banner */}
+            <PartnerWithUsBanner
+              onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
+            />
 
-        {/* SECTION 9: What are the Charges (Table & transparent breakdown) */}
-        <ChargesSection
-          onOpenApplyModal={() => handleOpenApplyModal()}
-        />
+            {/* SECTION 15: Real Stories from Real Borrowers (Testimonials) */}
+            <TestimonialsSection />
 
-        {/* SECTION 10: List of Documents Needed (Interactive checklist & download) */}
-        <DocumentsSection />
-
-        {/* SECTION 11: Steps to Apply for a Loan through JinnyLoan (4 numbered steps) */}
-        <StepsSection
-          onOpenApplyModal={() => handleOpenApplyModal()}
-        />
-
-        {/* SECTION 12: Compare Loan Interest Rates from 100+ Top Banks */}
-        <BankComparisonSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
-
-        {/* SECTION 13: 100+ Partner Lending Institutions */}
-        <OurPartnersSection
-          onOpenApplyModal={handleOpenApplyModal}
-        />
-
-        {/* SECTION 14: Partner With Us / DSA Connector Banner */}
-        <PartnerWithUsBanner
-          onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
-        />
-
-        {/* SECTION 15: Real Stories from Real Borrowers (Testimonials) */}
-        <TestimonialsSection />
-
-        {/* SECTION 16: Frequently Asked Questions (Accordion) */}
-        <FaqSection
-          onOpenContactModal={() => setIsContactModalOpen(true)}
-        />
-
+            {/* SECTION 16: Frequently Asked Questions (Accordion) */}
+            <FaqSection
+              onOpenContactModal={() => setIsContactModalOpen(true)}
+            />
+          </>
+        )}
       </main>
 
       {/* Footer */}
@@ -170,6 +173,7 @@ export function App() {
         onOpenAboutModal={() => setIsAboutModalOpen(true)}
         onOpenContactModal={() => setIsContactModalOpen(true)}
         onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
+        onOpenAdminModal={() => setIsAdminModalOpen(true)}
       />
 
       {/* Floating Desktop WhatsApp Button */}
@@ -223,6 +227,17 @@ export function App() {
       <PartnerModal
         isOpen={isPartnerModalOpen}
         onClose={() => setIsPartnerModalOpen(false)}
+      />
+
+      {/* Admin Partner & Content Configuration Modal */}
+      <AdminConfigModal
+        isOpen={isAdminModalOpen}
+        onClose={() => {
+          setIsAdminModalOpen(false);
+          if (currentPath === '/admin') {
+            navigate('/');
+          }
+        }}
       />
 
     </div>

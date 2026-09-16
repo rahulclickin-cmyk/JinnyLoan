@@ -5,9 +5,11 @@ import {
   ChevronLeft, 
   ChevronRight, 
   Sparkles,
-  ShieldCheck 
+  ShieldCheck,
+  ExternalLink 
 } from 'lucide-react';
 import { BankLogo } from './BankLogos';
+import { useSiteConfig } from '../context/ConfigContext';
 
 interface TrendingOffersSectionProps {
   onOpenApplyModal: (offerName?: string) => void;
@@ -16,87 +18,16 @@ interface TrendingOffersSectionProps {
 export const TrendingOffersSection: React.FC<TrendingOffersSectionProps> = ({
   onOpenApplyModal
 }) => {
+  const { config, handleActionUrl } = useSiteConfig();
+  const offers = (config?.lendingOffers || config?.trendingOffers || []).filter(o => o?.active !== false);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeDotIndex, setActiveDotIndex] = useState(0);
 
-  const offers = [
-    {
-      id: 'offer-creditsea',
-      partner: 'CreditSea',
-      tagline: 'Lending Genie - Always Ready to Help!',
-      amount: 'Upto 1 Lakhs',
-      rate: 'From 2.00% pm',
-      tenure: 'Upto 60 M',
-      badge: 'Instant Sanction',
-      category: 'Micro Cash & Quick Loan',
-      color: 'border-sky-200 hover:border-sky-400',
-      badgeStyle: 'bg-sky-100 text-sky-800 border-sky-200'
-    },
-    {
-      id: 'offer-aditya-birla',
-      partner: 'Aditya Birla Capital',
-      tagline: 'Express Digital Approval Online',
-      amount: 'Upto 5 Lakhs',
-      rate: 'From 10.49% pa',
-      tenure: 'Upto 60 M',
-      badge: 'Pre-Approved',
-      category: 'Express Personal Loan',
-      color: 'border-red-200 hover:border-red-400',
-      badgeStyle: 'bg-red-100 text-red-800 border-red-200'
-    },
-    {
-      id: 'offer-sbi',
-      partner: 'State Bank of India',
-      tagline: 'India\'s Most Trusted Housing Finance',
-      amount: 'Upto 5 Crores',
-      rate: 'From 7.35% pa',
-      tenure: 'Upto 360 M',
-      badge: 'Zero Prepayment Fee',
-      category: 'Regular Home Loan',
-      color: 'border-blue-200 hover:border-blue-400',
-      badgeStyle: 'bg-blue-100 text-blue-800 border-blue-200'
-    },
-    {
-      id: 'offer-hdfc',
-      partner: 'HDFC Bank',
-      tagline: 'Special Festive Discount on Processing Fee',
-      amount: 'Upto 10 Crores',
-      rate: 'From 7.35% pa',
-      tenure: 'Upto 360 M',
-      badge: 'Instant In-Principle',
-      category: 'Reach Home Loan',
-      color: 'border-indigo-200 hover:border-indigo-400',
-      badgeStyle: 'bg-indigo-100 text-indigo-800 border-indigo-200'
-    },
-    {
-      id: 'offer-icici',
-      partner: 'ICICI Bank',
-      tagline: 'Speedy Disbursal with Minimal Paperwork',
-      amount: 'Upto 5 Crores',
-      rate: 'From 7.50% pa',
-      tenure: 'Upto 360 M',
-      badge: 'Digital Sanction',
-      category: 'Home Loan & LAP',
-      color: 'border-orange-200 hover:border-orange-400',
-      badgeStyle: 'bg-orange-100 text-orange-800 border-orange-200'
-    },
-    {
-      id: 'offer-kotak',
-      partner: 'Kotak Mahindra Bank',
-      tagline: 'Special Concession for Salaried Women Borrowers',
-      amount: 'Upto 7.5 Crores',
-      rate: 'From 7.40% pa',
-      tenure: 'Upto 300 M',
-      badge: '0.05% Women Rebate',
-      category: 'Custom Mortgage Plan',
-      color: 'border-pink-200 hover:border-pink-400',
-      badgeStyle: 'bg-pink-100 text-[#E81E76] border-pink-200'
-    }
-  ];
-
   const checkScroll = () => {
+
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 10);
@@ -242,12 +173,16 @@ export const TrendingOffersSection: React.FC<TrendingOffersSectionProps> = ({
                   {offer.category}
                 </span>
                 <button
-                  onClick={() => onOpenApplyModal(`${offer.partner} - ${offer.category}`)}
+                  onClick={() => handleActionUrl(offer.externalUrl, () => onOpenApplyModal(`${offer.partner} - ${offer.category}`))}
                   className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1e40af] hover:bg-[#1d4ed8] text-white text-xs font-bold rounded-xl shadow-xs transition-all transform hover:-translate-y-0.5 cursor-pointer group-hover:bg-[#E81E76] flex-shrink-0"
                   id={`apply-btn-${offer.id}`}
                 >
-                  <span>Apply Now</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <span>{offer.ctaText || 'Apply Now'}</span>
+                  {offer.externalUrl ? (
+                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  )}
                 </button>
               </div>
 

@@ -8,9 +8,11 @@ import {
   Tag, 
   ShieldCheck, 
   Percent,
-  Flame
+  Flame,
+  ExternalLink
 } from 'lucide-react';
 import { CreditCardVisual } from './CreditCardVisual';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export interface RewardBannerItem {
   id: string;
@@ -26,6 +28,7 @@ export interface RewardBannerItem {
   borderColor: string;
   tcText: string;
   ctaText: string;
+  externalUrl?: string;
 }
 
 interface MoreRewardsOnCardsSectionProps {
@@ -46,7 +49,8 @@ const REWARD_BANNERS: RewardBannerItem[] = [
     bannerGradient: 'from-blue-50/90 via-indigo-50/50 to-white',
     borderColor: 'border-blue-200 hover:border-blue-400',
     tcText: '*T&C apply. Minimum spend of ₹1,500 within 30 days of card issuance.',
-    ctaText: 'Apply Now'
+    ctaText: 'Apply Now',
+    externalUrl: 'https://bitli.in/I9ySv3I'
   },
   {
     id: 'reward-cashback',
@@ -61,7 +65,8 @@ const REWARD_BANNERS: RewardBannerItem[] = [
     bannerGradient: 'from-pink-50/90 via-rose-50/50 to-white',
     borderColor: 'border-pink-200 hover:border-pink-400',
     tcText: '*T&C apply. Monthly statement credit. Valid across all verified online merchants.',
-    ctaText: 'Apply Now'
+    ctaText: 'Apply Now',
+    externalUrl: 'https://bitli.in/ZTidWoV'
   },
   {
     id: 'reward-fuel-travel',
@@ -76,13 +81,19 @@ const REWARD_BANNERS: RewardBannerItem[] = [
     bannerGradient: 'from-emerald-50/90 via-teal-50/50 to-white',
     borderColor: 'border-emerald-200 hover:border-emerald-400',
     tcText: '*T&C apply. Fuel waiver on transactions between ₹400 and ₹5,000 nationwide.',
-    ctaText: 'Apply Now'
+    ctaText: 'Apply Now',
+    externalUrl: 'https://bitli.in/Q9vpVjd'
   }
 ];
 
 export const MoreRewardsOnCardsSection: React.FC<MoreRewardsOnCardsSectionProps> = ({
   onOpenApplyModal
 }) => {
+  const { config, handleActionUrl } = useSiteConfig();
+  const rewardBanners = (config?.cardRewards && config.cardRewards.length > 0)
+    ? config.cardRewards.filter(b => b.active !== false)
+    : REWARD_BANNERS;
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -166,7 +177,7 @@ export const MoreRewardsOnCardsSection: React.FC<MoreRewardsOnCardsSectionProps>
           onScroll={checkScroll}
           className="flex items-stretch gap-3 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-0.5 scrollbar-none"
         >
-          {REWARD_BANNERS.map((banner) => (
+          {rewardBanners.map((banner) => (
             <div
               key={banner.id}
               id={`reward-card-${banner.id}`}
@@ -216,12 +227,18 @@ export const MoreRewardsOnCardsSection: React.FC<MoreRewardsOnCardsSectionProps>
               {/* CTA Button */}
               <div className="pt-3.5 mt-2 border-t border-slate-200/70">
                 <button
-                  onClick={() => onOpenApplyModal(`${banner.title} - ${banner.promotionalAmount}`)}
+                  onClick={() => {
+                    handleActionUrl(banner.externalUrl, () => onOpenApplyModal(`${banner.title} - ${banner.promotionalAmount}`));
+                  }}
                   className="w-full py-2 sm:py-2.5 px-4 bg-[#1e40af] hover:bg-[#1d4ed8] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-[#E81E76]"
                   id={`btn-apply-reward-${banner.id}`}
                 >
                   <span>{banner.ctaText}</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  {banner.externalUrl ? (
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  )}
                 </button>
               </div>
 

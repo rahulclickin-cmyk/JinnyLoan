@@ -6,9 +6,11 @@ import {
   ArrowRight, 
   Zap, 
   ShieldCheck, 
-  Clock 
+  Clock,
+  ExternalLink 
 } from 'lucide-react';
 import { BankLogo } from './BankLogos';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export interface LoanOfferItem {
   id: string;
@@ -105,6 +107,9 @@ const LOAN_OFFERS: LoanOfferItem[] = [
 export const LoanOffersSection: React.FC<LoanOffersSectionProps> = ({
   onOpenApplyModal
 }) => {
+  const { config, handleActionUrl } = useSiteConfig();
+  const loanOffers = (config?.loanOffers || []).filter(o => o?.active !== false);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -200,11 +205,11 @@ export const LoanOffersSection: React.FC<LoanOffersSectionProps> = ({
           onScroll={checkScroll}
           className="flex items-stretch gap-3 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-0.5 scrollbar-none"
         >
-          {LOAN_OFFERS.map((offer) => (
+          {loanOffers.map((offer) => (
             <div
               key={offer.id}
               id={`loan-offer-${offer.id}`}
-              className={`w-[260px] sm:w-[320px] md:w-[340px] flex-shrink-0 snap-start bg-gradient-to-b ${offer.bgLight} rounded-2xl border-2 ${offer.accentColor} p-4 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group`}
+              className={`w-[260px] sm:w-[320px] md:w-[340px] flex-shrink-0 snap-start bg-gradient-to-b ${offer.bgLight || 'from-slate-50 to-white'} rounded-2xl border-2 ${offer.accentColor || 'border-slate-200'} p-4 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group`}
             >
               {/* Card Header: Bank Logo + Badge */}
               <div>
@@ -251,12 +256,16 @@ export const LoanOffersSection: React.FC<LoanOffersSectionProps> = ({
               {/* Primary CTA: "Check Eligibility" */}
               <div className="pt-2">
                 <button
-                  onClick={() => onOpenApplyModal(`${offer.lender} - ${offer.tagline}`)}
+                  onClick={() => handleActionUrl(offer.externalUrl, () => onOpenApplyModal(`${offer.lender} - ${offer.tagline}`))}
                   className="w-full py-2.5 sm:py-3 px-4 bg-[#1e40af] hover:bg-[#1d4ed8] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-1.5 cursor-pointer group-hover:bg-[#E81E76]"
                   id={`btn-check-eligibility-${offer.id}`}
                 >
-                  <span>Check Eligibility</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  <span>{offer.ctaText || 'Check Eligibility'}</span>
+                  {offer.externalUrl ? (
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
+                  )}
                 </button>
               </div>
 

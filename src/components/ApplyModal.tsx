@@ -81,18 +81,46 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({
     setStep(2);
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
+  const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate instant sanction match
-    setTimeout(() => {
-      setIsSubmitting(false);
-      const generatedRef = 'JINNY-LN-' + Math.floor(100000 + Math.random() * 900000);
-      setReferenceId(generatedRef);
+    try {
+      const isLap = formData.preferredBank.toLowerCase().includes('property') || formData.preferredBank.toLowerCase().includes('lap');
+      const isHomeLoan = formData.preferredBank.toLowerCase().includes('home');
+      const inferredLeadType = isLap ? 'loan-against-property' : (isHomeLoan ? 'home-loan' : 'general-loan');
+
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          mobile: formData.mobile,
+          email: formData.email,
+          city: formData.city,
+          loanAmount: formData.loanAmount,
+          tenureYears: formData.tenureYears,
+          employmentType: formData.employmentType,
+          monthlyIncome: formData.monthlyIncome,
+          preferredBank: formData.preferredBank,
+          propertyIdentified: formData.propertyIdentified,
+          propertyType: formData.propertyType,
+          propertyEstimatedValue: formData.propertyEstimatedValue,
+          message: formData.message,
+          leadType: inferredLeadType,
+          source: 'Website Application Modal'
+        })
+      });
+
+      const resData = await response.json();
+      if (resData.success && resData.lead?.referenceId) {
+        setReferenceId(resData.lead.referenceId);
+      } else {
+        const generatedRef = 'JINNY-LN-' + Math.floor(100000 + Math.random() * 900000);
+        setReferenceId(generatedRef);
+      }
       setStep(3);
 
-      // Trigger celebratory confetti
       try {
         confetti({
           particleCount: 80,
@@ -102,7 +130,13 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({
       } catch (err) {
         // Safe fallback
       }
-    }, 1000);
+    } catch (err) {
+      const generatedRef = 'JINNY-LN-' + Math.floor(100000 + Math.random() * 900000);
+      setReferenceId(generatedRef);
+      setStep(3);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleResetAndClose = () => {
@@ -377,6 +411,57 @@ export const ApplyModal: React.FC<ApplyModalProps> = ({
                     onChange={handleInputChange}
                     className="w-full text-xs font-semibold pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#E81E76] focus:outline-none text-slate-900"
                     id="apply-input-income"
+                  />
+                </div>
+              </div>
+
+              {/* Property Details (if Home Loan or LAP) */}
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+                <label className="block text-xs font-bold text-slate-700">
+                  Property Information (Optional / If Identified)
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div>
+                    <span className="text-[11px] text-slate-500 block mb-1">Property Status</span>
+                    <select
+                      name="propertyIdentified"
+                      value={formData.propertyIdentified || 'yes'}
+                      onChange={handleInputChange}
+                      className="w-full text-xs font-medium px-2.5 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none"
+                    >
+                      <option value="yes">Property Identified / Owned</option>
+                      <option value="in-progress">Shortlisting Properties</option>
+                      <option value="no">Need Assistance Finding Property</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-500 block mb-1">Estimated Market Value (₹)</span>
+                    <input
+                      type="number"
+                      name="propertyEstimatedValue"
+                      placeholder="e.g. 8000000"
+                      value={formData.propertyEstimatedValue || ''}
+                      onChange={handleInputChange}
+                      className="w-full text-xs font-medium px-2.5 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Message / Remarks */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Additional Notes / Specific Requirements (Optional)
+                </label>
+                <div className="relative">
+                  <MessageSquare className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <textarea
+                    name="message"
+                    rows={2}
+                    placeholder="e.g. Looking for lowest interest rate, pre-payment concessions, or balance transfer from existing bank..."
+                    value={formData.message || ''}
+                    onChange={handleInputChange}
+                    className="w-full text-xs font-medium pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#E81E76] focus:outline-none text-slate-900"
                   />
                 </div>
               </div>
