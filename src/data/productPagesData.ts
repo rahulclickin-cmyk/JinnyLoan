@@ -463,5 +463,86 @@ export const PRODUCT_PAGES_DATA: Record<string, ProductPageData> = {
         features: ['Minimal balance sheet hurdles', 'High evaluation ratios', 'Doorstep concierge']
       }
     ]
+  },
+
+  '/loan-agent': {
+    slug: '/loan-agent',
+    title: 'Loan Agent & DSA Channel Partner',
+    categoryName: 'Loan Agent',
+    badge: 'Zero Investment • Highest Payouts',
+    heroTagline: 'Become an Authorized Loan Agent & Earn up to ₹1.5 Lakh+ Monthly',
+    heroDescription: 'Join JinnyLoan’s digital DSA network to distribute Personal Loans, Home Loans, Business Loans, and Credit Cards from 100+ RBI-registered banks & NBFCs. Get dedicated CRM portal access, instant paperless onboarding, and weekly commission payouts.',
+    startingRate: 'Up to 2.5% Payout',
+    maxAmount: 'Zero Security Fee',
+    maxTenure: 'Lifetime Code',
+    processingFee: '₹0 Joining Fee',
+    heroGradient: 'from-[#064e3b] via-[#047857] to-[#0f766e]',
+    heroAccent: 'text-amber-300',
+    overview: 'As an authorized JinnyLoan DSA Channel Partner and Loan Agent, you act as a trusted financial bridge connecting individual and business loan seekers with India’s top 100+ Banks and NBFCs. Whether you are an existing financial advisor, chartered accountant, insurance agent, real estate broker, or ambitious professional, our digital partner program empowers you to monetize loan leads with transparent real-time tracking, fast disbursals, and guaranteed highest market commissions.',
+    benefits: [
+      { title: 'Highest Market Commissions', desc: 'Earn up to 2.5% on Personal Loans, up to 2.0% on Business Loans, and 0.5% to 1.0% on Home Loans & LAP disbursals.' },
+      { title: '100+ Banks & NBFCs on Single Code', desc: 'No need to tie up individually with multiple banks. Access SBI, HDFC, ICICI, Axis, Tata Capital, Poonawalla, and 90+ lenders in one dashboard.' },
+      { title: 'Real-Time CRM & Lead Tracking', desc: 'Track customer application status digitally from submission, documentation, sanction, to fund credit with automated SMS & WhatsApp updates.' },
+      { title: 'Dedicated Relationship Manager', desc: 'Get doorstep document collection assistance, credit underwriting support, and fast-track file approval from dedicated banking managers.' }
+    ],
+    eligibility: [
+      { criterion: 'Eligible Profiles', detail: 'Financial Advisors, Insurance Agents (LIC/General), Chartered Accountants, Tax Consultants, Real Estate Brokers, DSA Staff, Freelancers' },
+      { criterion: 'Age Requirement', detail: 'Minimum 21 years of age, Indian National with active Aadhaar & PAN' },
+      { criterion: 'Educational Background', detail: 'Minimum 10+2 (Higher Secondary) or Graduate in any field; basic understanding of financial products' },
+      { criterion: 'Office / Capital Requirement', detail: 'Zero initial capital or office required; operate flexibly from your home, mobile, or existing shop/office' }
+    ],
+    documents: [
+      { category: 'Identity & Address Proof', docs: ['PAN Card (Mandatory for commission TDS reporting)', 'Aadhaar Card (Linked with active mobile for e-KYC)', 'Recent Passport Size Color Photograph'] },
+      { category: 'Bank Account Details', docs: ['Cancelled Cheque or Bank Passbook showing Name & IFSC for direct commission credits', 'Bank statement for last 3 months'] },
+      { category: 'Educational / Business Proof', docs: ['Highest qualification certificate (10+2/Degree)', 'Existing business visiting card / GST (Optional for firms)'] }
+    ],
+    howItWorks: [
+      { step: '01', title: 'Free Online Registration', desc: 'Fill the partner registration form with your basic details and upload your KYC documents in under 2 minutes.' },
+      { step: '02', title: 'Partner Code Generation', desc: 'Our team verifies your details and issues your official authorized JinnyLoan Partner Code and CRM login within 24 hours.' },
+      { step: '03', title: 'Submit Customer Leads', desc: 'Punch customer loan requirements into the partner web portal or mobile CRM. Our central team assists with documentation.' },
+      { step: '04', title: 'Disbursal & Payout Credit', desc: 'Partner bank verifies and disburses the loan amount. Your earned commission is transferred directly to your bank account.' }
+    ],
+    faqs: [
+      { q: 'Is there any joining fee or security deposit to become a loan agent?', a: 'No, joining the JinnyLoan DSA partner network is 100% free of cost. There are zero hidden fees, security deposits, or registration charges.' },
+      { q: 'What is the commission payout cycle?', a: 'Commissions are calculated on a transparent weekly or monthly cycle and disbursed directly via NEFT/IMPS to your registered bank account with formal payout statements.' },
+      { q: 'Can I work as a loan agent on a part-time basis?', a: 'Yes! Over 60% of our partners work part-time alongside their regular employment, insurance agency, or tax consultancy practice.' },
+      { q: 'What support is provided to new loan agents?', a: 'We provide comprehensive product training modules, marketing brochures, customer loan comparison calculators, and a dedicated Relationship Manager to clear customer files.' }
+    ],
+    isDirectRedirect: false,
+    partners: [
+      {
+        name: 'JinnyLoan Direct Channel',
+        logoName: 'JinnyLoan',
+        tagline: 'Instant 24-Hr Partner Code Activation',
+        rate: 'Up to 2.5% Payout',
+        maxAmount: 'Zero Investment',
+        tenure: 'Lifetime Partner Code',
+        badge: 'Official Program',
+        externalUrl: '#register-agent',
+        features: ['Digital CRM dashboard access', 'Weekly payout cycle', 'Dedicated file clearance manager']
+      },
+      {
+        name: 'Bank & NBFC Channel Pool',
+        logoName: 'SBI',
+        tagline: '100+ Institutional Lenders',
+        rate: 'All Loan Products',
+        maxAmount: 'Pan-India Coverage',
+        tenure: 'Personal, Home, Business',
+        badge: '100+ Lenders',
+        externalUrl: '#register-agent',
+        features: ['Top public & private banks', 'Special rates for salaried & self-employed', 'Fast sanction turnaround']
+      },
+      {
+        name: 'Fast-Track Lead Desk',
+        logoName: 'HDFC',
+        tagline: 'Doorstep Pickup & e-KYC',
+        rate: 'Highest Commission Tier',
+        maxAmount: 'High Quantum Files',
+        tenure: 'Weekly Account Settlement',
+        badge: 'Full RM Support',
+        externalUrl: '#register-agent',
+        features: ['Customer document collection', 'Credit score check assistance', 'Transparent billing sheet']
+      }
+    ]
   }
 };

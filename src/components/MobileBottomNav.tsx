@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   FileCheck2
 } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface MobileBottomNavProps {
   onOpenApplyModal: (loanType?: string) => void;
@@ -110,11 +111,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           href="https://wa.me/918006488006?text=Hi%20JinnyLoan,%20I%20want%20to%20apply%20for%20a%20loan%20at%20best%20interest%20rates."
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 bg-[#22c55e] text-white px-3 py-2 rounded-full shadow-lg shadow-green-600/30 active:scale-95 transition-transform text-xs font-bold"
+          className="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-emerald-600/30 active:scale-90 transition-transform"
           id="mobile-quick-whatsapp"
+          aria-label="WhatsApp Support"
+          title="WhatsApp Support"
         >
-          <MessageSquare className="w-4 h-4 fill-white/20" />
-          <span>WhatsApp</span>
+          <WhatsAppIcon className="w-5 h-5 fill-white" />
         </a>
       </div>
 

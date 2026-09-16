@@ -1,25 +1,28 @@
 import React from 'react';
 
 interface BankLogoProps {
-  name: string;
+  name?: string;
+  bankName?: string;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
 }
 
 export const BankLogo: React.FC<BankLogoProps> = ({
-  name,
+  name = '',
+  bankName = '',
   className = '',
   size = 'md',
   showText = true,
 }) => {
+  const actualName = name || bankName || '';
   const sizeClasses = {
-    sm: 'h-7 max-w-[110px]',
-    md: 'h-9 max-w-[140px]',
-    lg: 'h-12 max-w-[180px]',
+    sm: 'h-7',
+    md: 'h-9',
+    lg: 'h-12',
   };
 
-  const key = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const key = actualName.toLowerCase().replace(/[^a-z0-9]/g, '');
 
   // Render authentic SVG based on bank name
   const renderLogo = () => {
@@ -115,16 +118,20 @@ export const BankLogo: React.FC<BankLogoProps> = ({
       // 6. ADITYA BIRLA CAPITAL
       case key.includes('aditya') || key.includes('birla'):
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-nowrap">
             <svg viewBox="0 0 100 100" className="h-7 w-7 flex-shrink-0" fill="none">
               <rect width="100" height="100" rx="16" fill="#88001b" />
               <path d="M 50 15 L 85 85 L 15 85 Z" fill="#f7941d" />
               <path d="M 50 35 L 72 80 L 28 80 Z" fill="#ffffff" />
             </svg>
             {showText && (
-              <div className="flex flex-col leading-none">
-                <span className="font-black text-[#88001b] text-[10px] tracking-wider uppercase">ADITYA BIRLA</span>
-                <span className="font-bold text-[#f7941d] text-xs tracking-tight uppercase">CAPITAL</span>
+              <div className="flex flex-col justify-center leading-tight whitespace-nowrap">
+                <span className="font-black text-[#88001b] text-[11px] tracking-wide uppercase whitespace-nowrap">
+                  ADITYA BIRLA
+                </span>
+                <span className="font-extrabold text-[#d9531e] text-[9.5px] tracking-widest uppercase whitespace-nowrap">
+                  CAPITAL
+                </span>
               </div>
             )}
           </div>
@@ -214,18 +221,155 @@ export const BankLogo: React.FC<BankLogoProps> = ({
           </div>
         );
 
-      // 12. POONAWALLA FINCORP
+      // 12. POONAWALLA FINCORP (Exact match to screenshot)
       case key.includes('poonawalla'):
         return (
           <div className="flex items-center gap-2">
-            <svg viewBox="0 0 100 100" className="h-7 w-7 flex-shrink-0" fill="none">
-              <rect width="100" height="100" rx="18" fill="#581c87" />
-              <circle cx="50" cy="50" r="28" stroke="#a855f7" strokeWidth="6" fill="none" />
-              <path d="M 40 35 L 60 50 L 40 65 Z" fill="#ffffff" />
+            <div className="flex items-center font-serif text-3xl font-black text-[#1e2e60] tracking-tight leading-none border-r-2 border-slate-300 pr-2">
+              P
+            </div>
+            {showText && (
+              <div className="flex flex-col leading-none text-left">
+                <span className="font-extrabold text-[#1e2e60] text-xs sm:text-[13px] tracking-wider uppercase">POONAWALLA</span>
+                <span className="font-bold text-[#1e2e60] text-[9px] sm:text-[10px] tracking-widest uppercase mt-0.5">FINCORP</span>
+              </div>
+            )}
+          </div>
+        );
+
+      // MPOKKET (Screenshot Match)
+      case key.includes('mpokket') || key.includes('pokket'):
+        return (
+          <div className="flex items-center gap-1.5">
+            <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shadow-xs">
+              <span className="text-lg font-black leading-none flex items-center">
+                <span className="text-[#f59e0b]">m</span>
+                <span className="w-2 h-2 rounded-full bg-[#0284c7] -ml-0.5" />
+              </span>
+            </div>
+            {showText && (
+              <span className="font-black text-[#0284c7] text-base sm:text-lg tracking-tight font-['Outfit',sans-serif]">
+                mPokket
+              </span>
+            )}
+          </div>
+        );
+
+      // HERO FINCORP (Screenshot Match)
+      case key.includes('hero'):
+        return (
+          <div className="flex items-center bg-[#024927] rounded-lg px-2.5 py-1.5 gap-2 shadow-xs">
+            <div className="w-6 h-6 bg-[#00a843] rounded flex items-center justify-center p-0.5">
+              <div className="w-4 h-4 border-2 border-white rounded-xs flex items-center justify-center">
+                <div className="w-2 h-2 bg-white" />
+              </div>
+            </div>
+            {showText && (
+              <div className="flex flex-col leading-none text-left">
+                <span className="font-black text-white text-xs sm:text-sm tracking-tight">Hero</span>
+                <span className="font-bold text-white/95 text-[8px] sm:text-[9px] tracking-widest uppercase mt-0.5">FINCORP</span>
+              </div>
+            )}
+          </div>
+        );
+
+      // TRUSTPAISA (Screenshot Match)
+      case key.includes('trustpaisa') || key.includes('trust'):
+        return (
+          <div className="flex items-center gap-2">
+            <svg viewBox="0 0 100 100" className="w-7 h-7 flex-shrink-0" fill="none">
+              <circle cx="50" cy="50" r="44" fill="#e76943" opacity="0.2" />
+              <path d="M 35 65 C 30 50 40 35 55 35 C 70 35 75 50 65 65 Z" fill="#e76943" />
+              <circle cx="50" cy="48" r="9" fill="#ffffff" />
             </svg>
             {showText && (
-              <span className="font-extrabold text-[#581c87] text-xs uppercase tracking-tight">
-                Poonawalla Fincorp
+              <span className="font-black text-slate-900 text-base sm:text-lg tracking-tight font-['Outfit',sans-serif]">
+                TrustPaisa
+              </span>
+            )}
+          </div>
+        );
+
+      // LENDINGPLATE (Screenshot Match)
+      case key.includes('lendingplate') || key.includes('plate'):
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full border-2 border-slate-900 flex items-center justify-center p-0.5 relative">
+              <div className="flex gap-0.5 items-end justify-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ec4899]" />
+                <span className="w-2 h-2 rounded-full bg-[#3b82f6]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#eab308]" />
+              </div>
+            </div>
+            {showText && (
+              <div className="flex flex-col leading-none text-left">
+                <span className="font-bold text-slate-900 text-sm sm:text-base tracking-tight font-['Outfit',sans-serif]">lendingplate</span>
+                <span className="text-[8px] text-slate-500 font-medium italic mt-0.5">best way to borrow</span>
+              </div>
+            )}
+          </div>
+        );
+
+      // FDPL (Screenshot Match)
+      case key.includes('fdpl'):
+        return (
+          <div className="flex items-center gap-2">
+            <div className="flex items-end gap-0.5 h-6 w-5 pb-0.5">
+              <span className="w-1.5 h-2.5 bg-[#311b92] rounded-xs" />
+              <span className="w-1.5 h-4 bg-[#512da8] rounded-xs" />
+              <span className="w-1.5 h-5 bg-[#7e57c2] rounded-xs" />
+              <span className="w-1.5 h-6 bg-[#f59e0b] rounded-xs" />
+            </div>
+            {showText && (
+              <div className="flex flex-col leading-none text-left">
+                <span className="font-black text-[#311b92] text-base sm:text-lg tracking-tight font-['Outfit',sans-serif]">FDPL</span>
+                <span className="text-[8px] text-slate-600 font-bold uppercase tracking-wider mt-0.5">Finance Pvt. Ltd.</span>
+              </div>
+            )}
+          </div>
+        );
+
+      // TEZCREDIT (Screenshot Match)
+      case key.includes('tezcredit') || key.includes('tez'):
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-[#1e40af] flex items-center justify-center text-white relative shadow-xs">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-emerald-400 stroke-white stroke-1">
+                <path d="M13 2L3 14h7v8l10-12h-7l3-8z" />
+              </svg>
+            </div>
+            {showText && (
+              <span className="font-black text-[#1e3a8a] text-base sm:text-lg tracking-tight font-['Outfit',sans-serif]">
+                Tez<span className="text-[#0284c7]">Credit</span>
+              </span>
+            )}
+          </div>
+        );
+
+      // CASHVIA (Screenshot Match)
+      case key.includes('cashvia'):
+        return (
+          <div className="flex items-center">
+            {showText && (
+              <span className="font-black text-[#2563eb] text-xl sm:text-2xl tracking-tight font-['Outfit',sans-serif]">
+                Cashvia
+              </span>
+            )}
+          </div>
+        );
+
+      // BRANCH (Screenshot Match)
+      case key.includes('branch'):
+        return (
+          <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-1 text-[#06b6d4]">
+              <span className="w-2 h-2 rounded-full bg-[#06b6d4]" />
+              <span className="w-0.5 h-5 bg-[#06b6d4]" />
+              <span className="w-2 h-2 rounded-full bg-[#06b6d4]" />
+            </div>
+            {showText && (
+              <span className="font-black text-slate-800 text-base sm:text-lg lowercase tracking-tight font-['Outfit',sans-serif]">
+                branch
               </span>
             )}
           </div>
@@ -309,7 +453,7 @@ export const BankLogo: React.FC<BankLogoProps> = ({
   };
 
   return (
-    <div className={`inline-flex items-center justify-center p-2 rounded-lg bg-white border border-slate-200/80 shadow-[0_2px_6px_rgba(0,0,0,0.04)] hover:shadow-md transition-all ${sizeClasses[size]} ${className}`}>
+    <div className={`inline-flex items-center justify-center transition-all ${sizeClasses[size]} ${className}`}>
       {renderLogo()}
     </div>
   );

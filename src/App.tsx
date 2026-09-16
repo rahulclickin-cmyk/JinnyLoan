@@ -19,11 +19,15 @@ import { AboutModal } from './components/AboutModal';
 import { ContactModal } from './components/ContactModal';
 import { PartnerModal } from './components/PartnerModal';
 import { MobileBottomNav } from './components/MobileBottomNav';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, MessageCircle } from 'lucide-react';
 import { useRouter } from './context/RouterContext';
 import { ProductPage } from './components/pages/ProductPage';
+import { ServicesPage } from './components/pages/ServicesPage';
 import { PRODUCT_PAGES_DATA } from './data/productPagesData';
-import { AdminConfigModal } from './components/admin/AdminConfigModal';
+import { AdminCMS } from './components/admin/AdminCMS';
+import { AiChatbot } from './components/AiChatbot';
+import { WhatsAppIcon } from './components/WhatsAppIcon';
+import { WelcomeOfferPopup } from './components/WelcomeOfferPopup';
 
 export function App() {
   const { currentPath, navigate, isHome } = useRouter();
@@ -93,12 +97,18 @@ export function App() {
         onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
       />
 
-      {/* Main Content Sections: Product Page or Main Landing Page */}
+      {/* Main Content Sections: Services Page, Product Page, or Main Landing Page */}
       <main className="flex-grow">
-        {productData ? (
+        {normalizedPath === '/services' ? (
+          <ServicesPage
+            onOpenApplyModal={handleOpenApplyModal}
+            onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
+          />
+        ) : productData ? (
           <ProductPage 
             data={productData} 
-            onOpenApplyModal={handleOpenApplyModal} 
+            onOpenApplyModal={handleOpenApplyModal}
+            onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
           />
         ) : (
           <>
@@ -176,20 +186,31 @@ export function App() {
         onOpenAdminModal={() => setIsAdminModalOpen(true)}
       />
 
-      {/* Floating Desktop WhatsApp Button */}
-      <div className="hidden md:flex fixed bottom-6 right-6 z-40 flex-col items-end gap-2.5">
+      {/* Floating Desktop WhatsApp Button (Small Icon Button) */}
+      <div className="hidden md:flex fixed bottom-6 right-6 z-40 items-center">
         <a
           href="https://wa.me/918006488006?text=Hi%20JinnyLoan,%20I%20want%20to%20check%20my%20Loan%20Eligibility."
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-full shadow-xl shadow-emerald-900/30 hover:shadow-2xl transition-all transform hover:scale-105 group cursor-pointer"
+          className="w-10 h-10 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-lg shadow-emerald-900/25 hover:shadow-xl transition-all transform hover:scale-110 active:scale-95 group cursor-pointer border border-white/20"
           id="floating-whatsapp-btn"
           aria-label="WhatsApp Support"
+          title="WhatsApp Support (+91 8006488006)"
         >
-          <MessageSquare className="w-5 h-5 fill-white/20" />
-          <span className="text-xs font-bold">WhatsApp Help (+91 8006488006)</span>
+          <WhatsAppIcon className="w-5 h-5 fill-white" />
         </a>
       </div>
+
+      {/* Jinny Assistant (Dedicated Financial & Loan Guide with Human Advisor) */}
+      <AiChatbot 
+        onNavigate={(path) => navigate(path)}
+        onOpenApplyModal={(loanType) => handleOpenApplyModal(loanType)}
+      />
+
+      {/* Welcome Loan Offers & Notice Popup (with persistent single-computer dismissal) */}
+      <WelcomeOfferPopup 
+        onOpenApplyModal={(loanType) => handleOpenApplyModal(loanType)}
+      />
 
       {/* Native App-Style Mobile Bottom Navigation Dock */}
       <MobileBottomNav
@@ -229,16 +250,17 @@ export function App() {
         onClose={() => setIsPartnerModalOpen(false)}
       />
 
-      {/* Admin Partner & Content Configuration Modal */}
-      <AdminConfigModal
-        isOpen={isAdminModalOpen}
-        onClose={() => {
-          setIsAdminModalOpen(false);
-          if (currentPath === '/admin') {
-            navigate('/');
-          }
-        }}
-      />
+      {/* Admin CMS Enterprise Panel */}
+      {isAdminModalOpen && (
+        <AdminCMS
+          onClose={() => {
+            setIsAdminModalOpen(false);
+            if (currentPath === '/admin') {
+              navigate('/');
+            }
+          }}
+        />
+      )}
 
     </div>
   );

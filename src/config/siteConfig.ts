@@ -218,7 +218,7 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       highlightAmount: '₹10 Lakh',
       titleSuffix: '',
       description: 'Disbursed directly into bank account in 24 hrs with lowest interest rate guarantees.',
-      docs: ['Aadhar Card', 'PAN Card', 'Income Proof'],
+      docs: ['Aadhaar Card', 'PAN Card', 'Income Proof'],
       quickAmounts: ['₹50K', '₹1 Lakh', '₹5 Lakh', '₹10 Lakh'],
       ctaText: 'Apply Now',
       ctaDestination: 'https://bitli.in/5OXZt6Z',
@@ -247,6 +247,50 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       accentColor: 'text-yellow-300',
       active: true,
       order: 2
+    },
+    {
+      id: 'banner-business-agent',
+      badge: 'Business & Fast-Track Desk',
+      badgeSub: 'Zero Collateral',
+      titlePrefix: 'Fast-Track Funds up to',
+      highlightAmount: '₹50 Lakhs',
+      titleSuffix: '',
+      description: 'Collateral-free business expansion & personal credit with same-day institutional bank transfer.',
+      docs: ['Instant e-KYC', 'PAN & Aadhaar', '6 Mo. Statements'],
+      quickAmounts: ['₹2 Lakh', '₹5 Lakh', '₹15 Lakh', '₹50 Lakh'],
+      badges: [
+        { title: 'Zero Collateral', subtitle: 'Unsecured credit' },
+        { title: 'Same-Day Credit', subtitle: 'Digital transfer' }
+      ],
+      topPartners: ['Tata Capital', 'Aditya Birla', 'Kotak Bank', 'L&T Finance'],
+      ctaText: 'Check Eligibility',
+      ctaDestination: 'https://bitli.in/H5QN6Tz',
+      bgGradient: 'from-[#064e3b] via-[#047857] to-[#0f766e]',
+      accentColor: 'text-yellow-300',
+      active: true,
+      order: 3
+    },
+    {
+      id: 'banner-express-sanction',
+      badge: 'Instant Pre-Approval',
+      badgeSub: 'Rates from 9.99%',
+      titlePrefix: 'Express Sanction up to',
+      highlightAmount: '₹15 Lakhs',
+      titleSuffix: '',
+      description: 'Pre-approved personal loan offers with automated online underwriting and zero collateral.',
+      docs: ['Aadhaar e-KYC', 'PAN Card', 'NetBanking Verify'],
+      quickAmounts: ['₹1 Lakh', '₹3 Lakh', '₹7 Lakh', '₹15 Lakh'],
+      badges: [
+        { title: 'Zero Foreclosure', subtitle: 'Floating terms' },
+        { title: 'Lowest EMI', subtitle: 'From ₹1,999/Lakh' }
+      ],
+      topPartners: ['HDFC Bank', 'ICICI Bank', 'Axis Bank', 'CreditSea'],
+      ctaText: 'Instant Apply',
+      ctaDestination: 'https://bitli.in/5OXZt6Z',
+      bgGradient: 'from-[#9a3412] via-[#ea580c] to-[#f97316]',
+      accentColor: 'text-yellow-300',
+      active: true,
+      order: 4
     }
   ],
 
@@ -403,6 +447,22 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       order: 3
     },
     {
+      id: 'cat-loan-agent',
+      slug: '/loan-agent',
+      title: 'Loan Agent',
+      badge: 'DSA Partner',
+      subtitle: 'Join India’s top digital DSA network. Earn up to 2.5% commission on disbursals.',
+      rateOrStat: 'Up to 2.5% Payout',
+      iconName: 'Users',
+      gradient: 'from-emerald-700 via-teal-700 to-emerald-900',
+      exploreDestination: '/loan-agent',
+      startDestination: '/loan-agent',
+      exploreCtaText: 'Explore',
+      startCtaText: 'Become Agent',
+      active: true,
+      order: 4
+    },
+    {
       id: 'cat-home-loan',
       slug: '/home-loan',
       title: 'Home Loan',
@@ -416,7 +476,7 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       exploreCtaText: 'Explore',
       startCtaText: 'Check Rates',
       active: true,
-      order: 4
+      order: 5
     },
     {
       id: 'cat-lap',
@@ -432,7 +492,7 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       exploreCtaText: 'Explore',
       startCtaText: 'Check Equity',
       active: true,
-      order: 5
+      order: 6
     }
   ],
 
@@ -677,6 +737,42 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
       externalUrl: 'https://bitli.in/Q9vpVjd',
       active: true,
       order: 3
+    },
+    {
+      id: 'reward-amazon-icici',
+      promotionalAmount: '5% Unlimited Shopping',
+      badgeLabel: 'LIFETIME FREE',
+      title: '5% Amazon Pay Cashback',
+      messaging: '5% unlimited cashback on Amazon India for Prime members, 3% for non-prime with zero annual renewal fees forever.',
+      cardName: 'Amazon Pay ICICI',
+      bankName: 'ICICI Bank',
+      cardGradient: 'bg-gradient-to-tr from-[#994100] via-[#c45500] to-[#232f3e]',
+      network: 'visa',
+      bannerGradient: 'from-amber-50/90 via-orange-50/50 to-white',
+      borderColor: 'border-amber-200 hover:border-amber-400',
+      tcText: '*T&C apply. Direct Amazon Pay balance auto-credit every month without expiry.',
+      ctaText: 'Apply Now',
+      externalUrl: 'https://bitli.in/tz5iKIO',
+      active: true,
+      order: 4
+    },
+    {
+      id: 'reward-kotak-league',
+      promotionalAmount: '4X Reward Points',
+      badgeLabel: 'MOVIE & DINING',
+      title: 'Buy 1 Get 1 Movie Tickets',
+      messaging: 'Complimentary PVR movie tickets every quarter + 4X rewards on apparel, dining, and lifestyle transactions.',
+      cardName: 'Kotak League Platinum',
+      bankName: 'Kotak Mahindra',
+      cardGradient: 'bg-gradient-to-tr from-[#690007] via-[#b3141f] to-[#1a0003]',
+      network: 'visa',
+      bannerGradient: 'from-rose-50/90 via-red-50/50 to-white',
+      borderColor: 'border-rose-200 hover:border-rose-400',
+      tcText: '*T&C apply. BookMyShow coupon codes credited upon meeting quarterly milestones.',
+      ctaText: 'Apply Now',
+      externalUrl: 'https://bitli.in/xtG7uh9',
+      active: true,
+      order: 5
     }
   ],
 

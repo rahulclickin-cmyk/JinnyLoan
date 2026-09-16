@@ -14,7 +14,13 @@ import {
   Sparkles,
   TrendingUp,
   Percent,
-  Coins
+  Coins,
+  CreditCard,
+  Briefcase,
+  Users,
+  Handshake,
+  PhoneCall,
+  Check
 } from 'lucide-react';
 import { ProductPageData } from '../../data/productPagesData';
 import { useRouter } from '../../context/RouterContext';
@@ -31,11 +37,20 @@ import { BankComparisonSection } from '../BankComparisonSection';
 interface ProductPageProps {
   data: ProductPageData;
   onOpenApplyModal: (categoryName?: string) => void;
+  onOpenPartnerModal?: () => void;
 }
 
-export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal }) => {
+export const ProductPage: React.FC<ProductPageProps> = ({ 
+  data, 
+  onOpenApplyModal,
+  onOpenPartnerModal 
+}) => {
   const { navigate } = useRouter();
   const { handleActionUrl } = useSiteConfig();
+
+  // State for DSA Commission Calculator on /loan-agent
+  const [dsaVolume, setDsaVolume] = useState<number>(5000000); // 50 Lakhs
+  const [dsaRate, setDsaRate] = useState<number>(2.0); // 2% average commission
 
   // For Home Loan / LAP interactive calculator widget on page
   const [calcAmount, setCalcAmount] = useState(
@@ -63,7 +78,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-6">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-4">
           <button 
             onClick={() => navigate('/')} 
             className="flex items-center gap-1 hover:text-[#E81E76] transition-colors cursor-pointer font-medium"
@@ -73,6 +88,40 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
           </button>
           <span>/</span>
           <span className="text-slate-900 font-semibold truncate">{data.categoryName}</span>
+        </div>
+
+        {/* Popular Loan Categories Switcher Bar (5 Popular Options: Personal Loan, Credit Cards, Business Loan, Loan Agent, Home Loan) */}
+        <div className="bg-white rounded-2xl p-2 sm:p-2.5 border border-slate-200/80 shadow-xs mb-6 overflow-x-auto">
+          <div className="flex items-center gap-2 min-w-max">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-2">
+              Popular Services:
+            </span>
+            {[
+              { slug: '/personal-loan', en: 'Personal Loan', subtitle: 'Instant Cash', icon: Coins },
+              { slug: '/credit-card', en: 'Credit Cards', subtitle: '5% Cashback', icon: CreditCard },
+              { slug: '/business-loan', en: 'Business Loan', subtitle: 'MSME Growth', icon: Briefcase },
+              { slug: '/loan-agent', en: 'Loan Agent', subtitle: 'DSA Partner', icon: Users },
+              { slug: '/home-loan', en: 'Home Loan', subtitle: 'Lowest Rates', icon: Home }
+            ].map((cat) => {
+              const isActive = data.slug === cat.slug;
+              const IconComp = cat.icon;
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() => navigate(cat.slug)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-[#1e40af] text-white shadow-xs'
+                      : 'bg-slate-50 text-slate-700 hover:bg-pink-50 hover:text-[#E81E76] border border-slate-200/60'
+                  }`}
+                >
+                  <IconComp className={`w-3.5 h-3.5 ${isActive ? 'text-yellow-300' : 'text-slate-500'}`} />
+                  <span>{cat.en}</span>
+                  <span className={`text-[10px] ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>({cat.subtitle})</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* 1. HERO SECTION */}
@@ -125,7 +174,33 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
 
             {/* Hero Action CTA */}
             <div className="flex flex-wrap items-center gap-3">
-              {isSecuredProduct ? (
+              {data.slug === '/loan-agent' ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => {
+                      if (onOpenPartnerModal) {
+                        onOpenPartnerModal();
+                      } else {
+                        onOpenApplyModal('Loan Agent');
+                      }
+                    }}
+                    className="px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-sm rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                    id="hero-apply-btn-loan-agent"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>Register as Loan Agent (Free Registration)</span>
+                  </button>
+                  <a
+                    href="https://wa.me/918006488006?text=Hi%2C%20I%20want%20to%20become%20a%20JinnyLoan%20Loan%20Agent%20%2F%20DSA%20Partner."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-3.5 bg-white/20 hover:bg-white/30 text-white font-bold text-sm rounded-xl backdrop-blur-xs border border-white/30 transition-all flex items-center gap-2"
+                  >
+                    <span>Chat on WhatsApp</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              ) : isSecuredProduct ? (
                 <button
                   onClick={() => onOpenApplyModal(data.categoryName)}
                   className="px-6 py-3.5 bg-[#E81E76] hover:bg-[#c2145e] text-white font-extrabold text-sm rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
@@ -152,7 +227,9 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
                 </button>
               )}
               <span className="text-xs text-blue-200 font-medium">
-                {isSecuredProduct ? '✓ Zero commission • Dedicated Relationship Manager' : '✓ 100% Paperless • Direct approval'}
+                {data.slug === '/loan-agent' 
+                  ? '✓ Zero investment • Instant mobile activation • Dedicated payout desk'
+                  : isSecuredProduct ? '✓ Zero commission • Dedicated Relationship Manager' : '✓ 100% Paperless • Direct approval'}
               </span>
             </div>
           </div>
@@ -269,9 +346,23 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
                   </div>
                 </div>
 
-                {/* Partner CTA button: Lead Gen for Home Loan & LAP, Direct Partner URL for Personal/Cards/Business */}
+                {/* Partner CTA button: Lead Gen for Home Loan & LAP, Registration for Loan Agent, Direct Partner URL for Personal/Cards/Business */}
                 <div>
-                  {isSecuredProduct ? (
+                  {data.slug === '/loan-agent' ? (
+                    <button
+                      onClick={() => {
+                        if (onOpenPartnerModal) {
+                          onOpenPartnerModal();
+                        } else {
+                          onOpenApplyModal(`${partner.name} - Loan Agent`);
+                        }
+                      }}
+                      className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer group"
+                    >
+                      <Users className="w-4 h-4" />
+                      <span>Register to Sell ({partner.name})</span>
+                    </button>
+                  ) : isSecuredProduct ? (
                     <button
                       onClick={() => onOpenApplyModal(`${partner.name} - ${data.categoryName}`)}
                       className="w-full py-3 px-4 bg-[#E81E76] hover:bg-[#c2145e] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer group"
@@ -291,13 +382,115 @@ export const ProductPage: React.FC<ProductPageProps> = ({ data, onOpenApplyModal
                     </a>
                   )}
                   <p className="text-[10px] text-slate-400 text-center mt-2 truncate">
-                    {isSecuredProduct ? 'Priority processing with dedicated RM' : `Official Partner Portal: ${partner.name}`}
+                    {data.slug === '/loan-agent'
+                      ? 'Partner registration is 100% free • No joining fee'
+                      : isSecuredProduct ? 'Priority processing with dedicated RM' : `Official Partner Portal: ${partner.name}`}
                   </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* DSA COMMISSION ESTIMATOR (FOR /loan-agent) */}
+        {data.slug === '/loan-agent' && (
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-emerald-200 shadow-md mb-12">
+            <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                  <Calculator className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-['Outfit',sans-serif]">
+                    DSA Commission Payout Estimator
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Calculate your estimated monthly payout based on client loan disbursal volume.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 space-y-6">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase">Monthly Disbursed Loan Volume</label>
+                    <span className="text-base font-black text-emerald-700 font-['Outfit',sans-serif]">
+                      ₹{(dsaVolume / 100000).toFixed(1)} Lakhs
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={500000}
+                    max={20000000}
+                    step={250000}
+                    value={dsaVolume}
+                    onChange={e => setDsaVolume(Number(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+                  />
+                  <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+                    <span>₹5 Lakhs</span>
+                    <span>₹2 Crores</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase">Average Commission Payout Rate</label>
+                    <span className="text-base font-black text-emerald-700 font-['Outfit',sans-serif]">
+                      {dsaRate}%
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: 'Home Loan (0.6%)', rate: 0.6 },
+                      { label: 'Business (1.8%)', rate: 1.8 },
+                      { label: 'Personal Loan (2.5%)', rate: 2.5 }
+                    ].map(item => (
+                      <button
+                        key={item.rate}
+                        type="button"
+                        onClick={() => setDsaRate(item.rate)}
+                        className={`py-2 px-2 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+                          dsaRate === item.rate
+                            ? 'bg-emerald-600 text-white border-emerald-600'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-emerald-50'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-gradient-to-br from-emerald-700 to-teal-900 rounded-3xl p-6 sm:p-8 text-white text-center shadow-lg">
+                <span className="text-xs font-bold text-emerald-200 uppercase tracking-wider block mb-1">
+                  Estimated Monthly Earning
+                </span>
+                <div className="text-3xl sm:text-5xl font-black text-yellow-300 font-['Outfit',sans-serif] my-2">
+                  ₹{Math.round((dsaVolume * dsaRate) / 100).toLocaleString('en-IN')}
+                </div>
+                <p className="text-xs text-emerald-100 mb-6">
+                  Direct credit into your bank account on every 10th of the month.
+                </p>
+                <button
+                  onClick={() => {
+                    if (onOpenPartnerModal) {
+                      onOpenPartnerModal();
+                    } else {
+                      onOpenApplyModal('Loan Agent');
+                    }
+                  }}
+                  className="w-full py-3.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all cursor-pointer"
+                >
+                  Start Earning Today (Free Registration)
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 4. DYNAMIC EMI CALCULATOR (SPECIALLY HIGHLIGHTED FOR HOME LOAN & LAP) */}
         {isSecuredProduct && (

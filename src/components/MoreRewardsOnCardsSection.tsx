@@ -83,6 +83,38 @@ const REWARD_BANNERS: RewardBannerItem[] = [
     tcText: '*T&C apply. Fuel waiver on transactions between ₹400 and ₹5,000 nationwide.',
     ctaText: 'Apply Now',
     externalUrl: 'https://bitli.in/Q9vpVjd'
+  },
+  {
+    id: 'reward-amazon-icici',
+    promotionalAmount: '5% Unlimited Shopping',
+    badgeLabel: 'LIFETIME FREE',
+    title: '5% Amazon Pay Cashback',
+    messaging: '5% unlimited cashback on Amazon India for Prime members, 3% for non-prime with zero annual renewal fees forever.',
+    cardName: 'Amazon Pay ICICI',
+    bankName: 'ICICI Bank',
+    cardGradient: 'bg-gradient-to-tr from-[#994100] via-[#c45500] to-[#232f3e]',
+    network: 'visa',
+    bannerGradient: 'from-amber-50/90 via-orange-50/50 to-white',
+    borderColor: 'border-amber-200 hover:border-amber-400',
+    tcText: '*T&C apply. Direct Amazon Pay balance auto-credit every month without expiry.',
+    ctaText: 'Apply Now',
+    externalUrl: 'https://bitli.in/tz5iKIO'
+  },
+  {
+    id: 'reward-kotak-league',
+    promotionalAmount: '4X Reward Points',
+    badgeLabel: 'MOVIE & DINING',
+    title: 'Buy 1 Get 1 Movie Tickets',
+    messaging: 'Complimentary PVR movie tickets every quarter + 4X rewards on apparel, dining, and lifestyle transactions.',
+    cardName: 'Kotak League Platinum',
+    bankName: 'Kotak Mahindra',
+    cardGradient: 'bg-gradient-to-tr from-[#690007] via-[#b3141f] to-[#1a0003]',
+    network: 'visa',
+    bannerGradient: 'from-rose-50/90 via-red-50/50 to-white',
+    borderColor: 'border-rose-200 hover:border-rose-400',
+    tcText: '*T&C apply. BookMyShow coupon codes credited upon meeting quarterly milestones.',
+    ctaText: 'Apply Now',
+    externalUrl: 'https://bitli.in/xtG7uh9'
   }
 ];
 

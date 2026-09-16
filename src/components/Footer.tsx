@@ -200,12 +200,22 @@ export const Footer: React.FC<FooterProps> = ({
                 id="footer-admin-trigger"
                 title="Open Partner and Content Configuration"
               >
-                ⚙️ Admin Config
+                ⚙️ Admin CMS Portal
               </button>
             )}
           </div>
           <span className="text-pink-100 text-[11px]">
             JinnyLoan is a digital loan comparison marketplace. All loans are disbursed by RBI regulated partner banks & NBFCs.
+          </span>
+        </div>
+      </div>
+
+      {/* Agency Attribution Bar */}
+      <div className="bg-slate-950 text-slate-400 py-2.5 px-4 text-center text-[11px] sm:text-xs font-medium border-t border-slate-900">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-1.5">
+          <span>Developed by</span>
+          <span className="text-white font-semibold tracking-wide">
+            ClickIn Digital Marketing Agency.
           </span>
         </div>
       </div>

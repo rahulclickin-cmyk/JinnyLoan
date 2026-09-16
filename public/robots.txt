@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Disallow admin panel from web crawlers
+Disallow: /admin
+
+Sitemap: https://jinnyloan.com/sitemap.xml
