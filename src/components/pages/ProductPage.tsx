@@ -303,21 +303,27 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-xs font-extrabold text-[#E81E76] bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
+                    <span className="text-xs font-extrabold text-[#E81E76] bg-pink-50 px-3 py-1 rounded-full border border-pink-100 whitespace-nowrap">
                       {partner.badge}
                     </span>
-                    <span className="text-xs font-black text-slate-900 font-['Outfit',sans-serif]">
+                    <span className="text-xs font-black text-slate-900 font-['Outfit',sans-serif] text-right">
                       {partner.rate}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 mb-4">
-                    <BankLogo bankName={partner.name} className="w-10 h-10 shadow-xs flex-shrink-0" />
-                    <div>
-                      <h3 className="text-base font-bold text-slate-900 font-['Outfit',sans-serif] leading-tight">
+                  <div className="flex items-start gap-3.5 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center p-2 shadow-2xs flex-shrink-0">
+                      <BankLogo 
+                        name={partner.logoName || partner.name} 
+                        size="sm" 
+                        showText={false} 
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <h3 className="text-base font-bold text-slate-900 font-['Outfit',sans-serif] leading-snug">
                         {partner.name}
                       </h3>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-500 mt-0.5 leading-normal">
                         {partner.tagline}
                       </p>
                     </div>

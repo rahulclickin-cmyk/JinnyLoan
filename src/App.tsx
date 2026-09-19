@@ -23,6 +23,7 @@ import { MessageSquare, MessageCircle } from 'lucide-react';
 import { useRouter } from './context/RouterContext';
 import { ProductPage } from './components/pages/ProductPage';
 import { ServicesPage } from './components/pages/ServicesPage';
+import { PersonalLoanPage } from './components/pages/PersonalLoanPage';
 import { PRODUCT_PAGES_DATA } from './data/productPagesData';
 import { AdminCMS } from './components/admin/AdminCMS';
 import { AiChatbot } from './components/AiChatbot';
@@ -103,6 +104,10 @@ export function App() {
           <ServicesPage
             onOpenApplyModal={handleOpenApplyModal}
             onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
+          />
+        ) : (normalizedPath === '/personal-loan' || normalizedPath.includes('personal-loan') || normalizedPath.includes('instant-personal-loan')) ? (
+          <PersonalLoanPage
+            onOpenApplyModal={handleOpenApplyModal}
           />
         ) : productData ? (
           <ProductPage 
