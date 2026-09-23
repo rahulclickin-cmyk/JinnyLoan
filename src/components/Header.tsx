@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Phone, 
-  Mail, 
   Menu, 
   X, 
   MessageSquare, 
@@ -153,44 +151,6 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 w-full shadow-sm">
       {/* Top Loan Offers Text Slider (All Loan Offers Rotating) */}
       <LoanOffersTicker onOpenApplyModal={onOpenApplyModal} />
-
-      {/* Top Pink/Coral Utility Strip */}
-      <div className="bg-[#E81E76] text-white text-xs py-2 px-4 shadow-inner">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-          {/* Left: Phone & Email */}
-          <div className="flex items-center gap-5 sm:gap-8 font-medium">
-            <a 
-              href="tel:+918006488006" 
-              className="flex items-center gap-2 hover:text-pink-100 transition-colors"
-              id="header-top-phone"
-            >
-              <Phone className="w-3.5 h-3.5 fill-current" />
-              <span className="tracking-wide">+91 8006488006</span>
-            </a>
-            <a 
-              href="mailto:info@jinnyloan.com" 
-              className="flex items-center gap-2 hover:text-pink-100 transition-colors"
-              id="header-top-email"
-            >
-              <Mail className="w-3.5 h-3.5" />
-              <span className="tracking-wide">info@jinnyloan.com</span>
-            </a>
-          </div>
-
-          {/* Right: Social Media Circle Icons */}
-          <div className="flex items-center gap-2.5">
-            <span className="text-[11px] text-pink-100 hidden md:inline font-medium">Follow us:</span>
-            {['f', 'ig', 'in', '▶'].map((icon, idx) => (
-              <span 
-                key={idx}
-                className="w-6 h-6 rounded-full bg-white/20 hover:bg-white text-white hover:text-[#E81E76] flex items-center justify-center transition-all text-xs font-bold cursor-pointer"
-              >
-                {icon}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Main Header Bar */}
       <div className={`w-full bg-white transition-all duration-200 ${

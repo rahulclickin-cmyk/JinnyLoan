@@ -238,35 +238,35 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
             </div>
           </div>
 
-          {/* 5. Loan Agent: Attractive Emerald Gradient Card */}
+          {/* 5. Loan Against Property (LAP): Attractive Indigo/Purple Gradient Card */}
           <div 
-            onClick={() => navigate(loanAgentCat?.exploreDestination || '/loan-agent')}
-            className="group relative bg-gradient-to-r from-emerald-50 via-teal-50 to-white border-2 border-emerald-200 hover:border-emerald-600 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer overflow-hidden"
-            id="product-card-loan-agent"
+            onClick={() => navigate(lapCat?.exploreDestination || '/loan-against-property')}
+            className="group relative bg-gradient-to-r from-indigo-50 via-purple-50 to-white border-2 border-indigo-200 hover:border-[#1e40af] rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer overflow-hidden"
+            id="product-card-loan-against-property"
           >
-            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
 
             <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 flex-shrink-0 group-hover:scale-105 transition-transform">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#1e40af] text-white flex items-center justify-center shadow-md shadow-indigo-900/20 flex-shrink-0 group-hover:scale-105 transition-transform">
+                <Building2 className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] sm:text-xs font-bold text-white bg-emerald-600 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
-                    {loanAgentCat?.badge || 'DSA Partner'}
+                  <span className="text-[9px] sm:text-xs font-bold text-white bg-[#1e40af] px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                    {lapCat?.badge || 'Up to 75% LTV'}
                   </span>
                   <span className="text-[10px] text-slate-500 font-semibold hidden sm:inline">
-                    Zero Investment Business
+                    Commercial & Residential
                   </span>
                 </div>
                 <h4 className="text-base sm:text-2xl font-black text-slate-900 font-['Outfit',sans-serif] leading-tight mt-1">
-                  {loanAgentCat?.title || 'Loan Agent'}
+                  {lapCat?.title || 'Loan Against Property'}
                 </h4>
                 <p className="text-xs font-bold text-slate-700 mt-0.5">
-                  Commission Payout <span className="text-emerald-700 font-extrabold text-sm sm:text-base">{loanAgentCat?.rateOrStat || 'Up to 2.5%'}</span>
+                  Interest starting from <span className="text-[#1e40af] font-extrabold text-sm sm:text-base">{lapCat?.rateOrStat || '7.75%*'}</span>
                 </p>
                 <p className="text-[11px] text-slate-500 mt-1 hidden sm:block">
-                  {loanAgentCat?.subtitle || 'Join India’s top digital DSA network. Earn up to ₹1.5 Lakh+ monthly on loan disbursals.'}
+                  {lapCat?.subtitle || 'Unlock market value up to ₹15 Crores with repayment tenures up to 20 years.'}
                 </p>
               </div>
             </div>
@@ -275,29 +275,18 @@ export const LoanProductsGrid: React.FC<LoanProductsGridProps> = ({
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate('/loan-agent');
+                  navigate('/loan-against-property');
                 }}
-                className="px-3.5 py-2 bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white border border-emerald-300 font-bold text-xs rounded-xl shadow-xs transition-all"
+                className="px-3.5 py-2 bg-white hover:bg-[#1e40af] text-[#1e40af] hover:text-white border border-indigo-300 font-bold text-xs rounded-xl shadow-xs transition-all"
               >
-                Become Partner (Free Registration)
+                Check Property Limit &amp; Apply
               </button>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-700 text-white flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-600 transition-all shadow-xs">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#1e40af] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#E81E76] transition-all shadow-xs">
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
           </div>
 
-        </div>
-
-        {/* Optional LAP Link Pill */}
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => navigate('/loan-against-property')}
-            className="inline-flex items-center gap-2 text-xs text-slate-500 hover:text-[#1e40af] font-medium transition-colors cursor-pointer"
-          >
-            <span>Also looking for high-ticket property mortgage?</span>
-            <span className="font-bold underline text-slate-700 hover:text-[#E81E76]">Explore Loan Against Property (LAP) &rarr;</span>
-          </button>
         </div>
 
       </div>

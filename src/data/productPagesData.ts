@@ -301,6 +301,17 @@ export const PRODUCT_PAGES_DATA: Record<string, ProductPageData> = {
         badge: 'Competitive Rate',
         externalUrl: 'https://poonawallafincorp.com/business-loan',
         features: ['Minimal financials required', 'Fast turnaround time', 'High approval ratio']
+      },
+      {
+        name: 'Bajaj Finserv MSME Loan',
+        logoName: 'Bajaj Finserv',
+        tagline: 'Flexi Hybrid Working Capital',
+        rate: 'From 11.99% p.a.',
+        maxAmount: 'Up to ₹50 Lakhs',
+        tenure: 'Upto 60 Months',
+        badge: 'Flexi Limit',
+        externalUrl: 'https://www.bajajfinserv.in/business-loan',
+        features: ['Flexi overdraft facility', 'Prepay and withdraw anytime', 'Instant online sanction']
       }
     ]
   },

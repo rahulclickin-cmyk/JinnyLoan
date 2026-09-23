@@ -239,6 +239,23 @@ export const BankLogo: React.FC<BankLogoProps> = ({
           </div>
         );
 
+      // MONEYVIEW
+      case key.includes('moneyview') || key.includes('money view'):
+        return (
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <div className="h-7 w-7 rounded-full bg-[#0a5c36] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 17l4-9 4 8 4-8 4 9" />
+              </svg>
+            </div>
+            {showText && (
+              <span className="font-bold text-[#0a5c36] text-[15px] tracking-tight whitespace-nowrap">
+                money<span className="font-extrabold text-[#111827]">view</span>
+              </span>
+            )}
+          </div>
+        );
+
       // 13. IDFC FIRST BANK
       case key.includes('idfc'):
         return (

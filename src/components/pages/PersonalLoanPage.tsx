@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowLeft, 
   ChevronLeft, 
@@ -7,9 +7,13 @@ import {
   Minus,
   Sparkles,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  ArrowRight,
+  ShieldCheck
 } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
+import { CuratedOffersModal } from '../CuratedOffersModal';
+import { BankLogo } from '../BankLogos';
 
 interface PersonalLoanPageProps {
   onOpenApplyModal?: (categoryName?: string) => void;
@@ -26,6 +30,25 @@ export const PersonalLoanPage: React.FC<PersonalLoanPageProps> = ({ onOpenApplyM
 
   // Testimonials carousel active slide index
   const [activeTestimonial, setActiveTestimonial] = useState<number>(0);
+
+  // Modal state for Lender Selection ("Apply" button below 3 steps)
+  const [showLenderModal, setShowLenderModal] = useState<boolean>(false);
+
+  const lendingPartners = [
+    { name: 'KreditBee', src: '/assets/personal-loan/image-10-300x86.webp', url: 'https://kreditbee.in' },
+    { name: 'moneyview', bankKey: 'moneyview', url: 'https://moneyview.in' },
+    { name: 'IndusInd Bank', bankKey: 'indusind', url: 'https://www.indusind.com' },
+    { name: 'Axis Bank', bankKey: 'axis', url: 'https://www.axisbank.com' },
+    { name: 'Cashe', src: '/assets/personal-loan/image-51-1-300x79.webp', url: 'https://cashe.co.in' },
+    { name: 'PaySense', src: '/assets/personal-loan/image-50-1-300x83.webp', url: 'https://www.gopaysense.com' },
+    { name: 'Prefr', src: '/assets/personal-loan/image-49-1-300x77.webp', url: 'https://prefr.com' },
+    { name: 'Fibe', src: '/assets/personal-loan/image-52-1-300x88.webp', url: 'https://fibe.in' },
+    { name: 'Zype', src: '/assets/personal-loan/image-53-1-300x50.webp', url: 'https://getzype.com' },
+    { name: 'MoneyTap', src: '/assets/personal-loan/image-12-300x52.webp', url: 'https://moneytap.com' },
+    { name: 'Tata Capital', bankKey: 'tatacapital', url: 'https://bitli.in/H5QN6Tz' },
+    { name: 'Poonawalla Fincorp', bankKey: 'poonawalla', url: 'https://bitli.in/VqSU8fF' },
+    { name: 'Aditya Birla', bankKey: 'aditya birla', url: 'https://bitli.in/5OXZt6Z' }
+  ];
 
   const testimonials = [
     {
@@ -199,68 +222,49 @@ export const PersonalLoanPage: React.FC<PersonalLoanPageProps> = ({ onOpenApplyM
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 2: LENDING PARTNERS CAROUSEL / LOGOS STRIP (elementor-element-f1d8178) */}
+      {/* SECTION 2: LENDING PARTNERS CONTINUOUS NONSTOP SLIDER                      */}
       {/* ========================================================================= */}
-      <section className="bg-white py-6 sm:py-8 border-y border-slate-100 overflow-hidden" id="personal-loan-partners">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-center gap-6 sm:gap-10 md:gap-12 flex-wrap sm:flex-nowrap overflow-x-auto py-2 scrollbar-none">
-            
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-10-300x86.webp" 
-                alt="KreditBee" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
+      <section 
+        className="bg-white py-4 sm:py-6 border-y border-slate-100 overflow-hidden relative" 
+        id="personal-loan-partners"
+      >
+        {/* Soft edge gradient fades */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-white to-transparent z-10" />
 
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-12-300x52.webp" 
-                alt="MoneyTap" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-52-1-300x88.webp" 
-                alt="Fibe" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-51-1-300x79.webp" 
-                alt="Cashe" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-50-1-300x83.webp" 
-                alt="PaySense" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-49-1-300x77.webp" 
-                alt="Prefr" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
-            <div className="flex-shrink-0 h-9 sm:h-11 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
-              <img 
-                src="/assets/personal-loan/image-53-1-300x50.webp" 
-                alt="Zype" 
-                className="max-h-full max-w-[120px] sm:max-w-[140px] object-contain"
-              />
-            </div>
-
+        <div className="w-full overflow-hidden">
+          <div className="animate-marquee-continuous flex items-center gap-8 sm:gap-12 md:gap-14 py-1">
+            {/* Render partner list duplicated twice for continuous seamless infinite loop without stopping */}
+            {[...lendingPartners, ...lendingPartners].map((partner, index) => (
+              <div 
+                key={index}
+                onClick={() => {
+                  if (partner.url) {
+                    window.open(partner.url, '_blank', 'noopener,noreferrer');
+                  } else {
+                    setShowLenderModal(true);
+                  }
+                }}
+                className="flex-shrink-0 h-10 sm:h-12 min-w-[110px] sm:min-w-[135px] flex items-center justify-center filter-none hover:grayscale hover:opacity-75 transition-all duration-300 cursor-pointer hover:scale-105"
+                title={`View ${partner.name} Personal Loan Offers`}
+              >
+                {partner.src ? (
+                  <img 
+                    src={partner.src} 
+                    alt={partner.name} 
+                    className="max-h-7 sm:max-h-9 max-w-[110px] sm:max-w-[130px] object-contain"
+                  />
+                ) : partner.bankKey ? (
+                  <BankLogo 
+                    name={partner.bankKey} 
+                    size="sm" 
+                    showText={true} 
+                  />
+                ) : (
+                  <span className="font-bold text-slate-800 text-sm">{partner.name}</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -327,11 +331,26 @@ export const PersonalLoanPage: React.FC<PersonalLoanPageProps> = ({ onOpenApplyM
                 Choose Lender &amp; Get Disbursal:
               </h3>
               <p className="text-[#444444] text-[13px] sm:text-[15px] leading-relaxed mt-1">
-                Seect a lender and once approved, the loan amount Will be disoursedinstantly
+                Select a lender and once approved, the loan amount will be disbursed instantly.
               </p>
             </div>
           </div>
 
+        </div>
+
+        {/* Apply CTA Button below 3 Steps */}
+        <div className="mt-8 flex flex-col items-center justify-center text-center">
+          <button
+            onClick={() => setShowLenderModal(true)}
+            className="w-full sm:w-auto px-10 py-3.5 bg-[#FF617A] hover:bg-[#e84e67] text-white font-medium text-[16px] sm:text-[18px] rounded-[30px] shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2.5 cursor-pointer"
+            id="steps-apply-now-btn"
+          >
+            <span>Apply Now &amp; View Available Lenders</span>
+            <ArrowRight className="w-5 h-5" />
+          </button>
+          <p className="text-xs text-slate-500 mt-2.5 font-normal">
+            ✓ Check instant pre-approved offers across 6+ top banks &amp; NBFCs
+          </p>
         </div>
       </section>
 
@@ -648,29 +667,33 @@ export const PersonalLoanPage: React.FC<PersonalLoanPageProps> = ({ onOpenApplyM
           {/* Testimonial slider / cards container */}
           <div className="relative">
             
-            {/* Cards Grid / Carousel View */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[0, 1, 2].map((offset) => {
-                const itemIndex = (activeTestimonial + offset) % testimonials.length;
-                const item = testimonials[itemIndex];
-                return (
-                  <div
-                    key={offset}
-                    className="rounded-[20px] p-6 sm:p-8 min-h-[220px] flex flex-col justify-between border border-slate-200/80 shadow-sm bg-cover bg-no-repeat bg-bottom-left"
-                    style={{ 
-                      backgroundImage: "url('/assets/personal-loan/image-24-1.webp')",
-                      backgroundColor: "#FFFFFF"
-                    }}
-                  >
-                    <p className="text-black text-[15px] sm:text-[16px] leading-relaxed font-normal">
-                      {item.quote}
-                    </p>
-                    <h3 className="text-black text-[16px] sm:text-[18px] font-medium mt-6 pt-4">
-                      {item.author}
+            {/* 1 Single Card Per Slide On All Screens */}
+            <div className="max-w-2xl mx-auto">
+              <div
+                className="rounded-[20px] p-6 sm:p-10 min-h-[200px] sm:min-h-[230px] flex flex-col justify-between border border-slate-200/80 shadow-md bg-cover bg-no-repeat bg-bottom-left transition-all duration-300"
+                style={{ 
+                  backgroundImage: "url('/assets/personal-loan/image-24-1.webp')",
+                  backgroundColor: "#FFFFFF"
+                }}
+              >
+                <div className="flex items-center gap-1 text-amber-400 mb-2">
+                  <span className="text-sm tracking-widest">★★★★★</span>
+                </div>
+                <p className="text-black text-[15px] sm:text-[18px] leading-relaxed font-normal italic">
+                  "{testimonials[activeTestimonial].quote}"
+                </p>
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h3 className="text-black text-[16px] sm:text-[19px] font-semibold">
+                      {testimonials[activeTestimonial].author}
                     </h3>
+                    <span className="text-xs text-slate-400 font-medium">Verified JinnyLoan Borrower</span>
                   </div>
-                );
-              })}
+                  <span className="text-xs text-[#FF617A] font-bold bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100">
+                    Loan Disbursed
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Navigation Arrows */}
@@ -1124,6 +1147,14 @@ export const PersonalLoanPage: React.FC<PersonalLoanPageProps> = ({ onOpenApplyM
           Check Offers Now
         </a>
       </div>
+
+      {/* Multi-Lender Selection Modal for Personal Loan */}
+      <CuratedOffersModal
+        isOpen={showLenderModal}
+        type="personal-loan"
+        onClose={() => setShowLenderModal(false)}
+        onOpenApplyModal={onOpenApplyModal}
+      />
 
     </div>
   );

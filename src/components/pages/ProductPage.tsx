@@ -33,6 +33,9 @@ import { ChargesSection } from '../ChargesSection';
 import { DocumentsSection } from '../DocumentsSection';
 import { StepsSection } from '../StepsSection';
 import { BankComparisonSection } from '../BankComparisonSection';
+import { VerifiedPartnersSlider } from '../VerifiedPartnersSlider';
+import { CreditCardSliderBanner } from '../CreditCardSliderBanner';
+import { CuratedOffersModal, OfferModalType } from '../CuratedOffersModal';
 
 interface ProductPageProps {
   data: ProductPageData;
@@ -47,6 +50,9 @@ export const ProductPage: React.FC<ProductPageProps> = ({
 }) => {
   const { navigate } = useRouter();
   const { handleActionUrl } = useSiteConfig();
+
+  // Multi-Lender Curated Offer Modal state
+  const [activeOfferModalType, setActiveOfferModalType] = useState<OfferModalType>(null);
 
   // State for DSA Commission Calculator on /loan-agent
   const [dsaVolume, setDsaVolume] = useState<number>(5000000); // 50 Lakhs
@@ -212,17 +218,29 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               ) : (
                 <button
                   onClick={() => {
-                    const firstPartnerUrl = data.partners[0]?.externalUrl;
-                    if (firstPartnerUrl) {
-                      handleActionUrl(firstPartnerUrl, () => onOpenApplyModal(data.categoryName));
+                    if (data.slug === '/credit-card') {
+                      setActiveOfferModalType('credit-card');
+                    } else if (data.slug === '/business-loan') {
+                      setActiveOfferModalType('business-loan');
                     } else {
-                      onOpenApplyModal(data.categoryName);
+                      const firstPartnerUrl = data.partners[0]?.externalUrl;
+                      if (firstPartnerUrl) {
+                        handleActionUrl(firstPartnerUrl, () => onOpenApplyModal(data.categoryName));
+                      } else {
+                        onOpenApplyModal(data.categoryName);
+                      }
                     }
                   }}
                   className="px-6 py-3.5 bg-white text-slate-900 hover:bg-[#E81E76] hover:text-white font-extrabold text-sm rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
                   id={`hero-apply-btn-${data.slug.replace('/', '')}`}
                 >
-                  <span>Check Instant Offers</span>
+                  <span>
+                    {data.slug === '/credit-card' 
+                      ? 'Check Instant Card Offers' 
+                      : data.slug === '/business-loan' 
+                      ? 'Check Instant Loan Offers' 
+                      : 'Check Instant Offers'}
+                  </span>
                   <ExternalLink className="w-4 h-4" />
                 </button>
               )}
@@ -279,124 +297,22 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           </div>
         )}
 
-        {/* 3. VERIFIED PARTNERS COMPARISON GRID WITH UNIQUE EXTERNAL REDIRECTIONS */}
-        <div className="mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-            <div>
-              <span className="text-xs font-bold text-[#E81E76] uppercase tracking-wider block">
-                {data.isDirectRedirect ? 'Direct Partner Application (No Internal Form)' : 'Compare & Choose'}
-              </span>
-              <h2 className="text-xl sm:text-3xl font-black text-slate-900 font-['Outfit',sans-serif]">
-                Verified Partner Institutions for {data.categoryName}
-              </h2>
-            </div>
-            <p className="text-xs text-slate-500">
-              {data.isDirectRedirect ? 'Click Apply Now to jump directly to the partner’s official portal.' : 'Select a partner or apply directly.'}
-            </p>
-          </div>
+        {/* 2.5 DEDICATED CREDIT CARD SLIDER BANNER (HOMEPAGE BANNER STYLE) */}
+        {data.slug === '/credit-card' && (
+          <CreditCardSliderBanner 
+            onCheckInstantOffer={() => setActiveOfferModalType('credit-card')} 
+          />
+        )}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {data.partners.map((partner, idx) => (
-              <div 
-                key={idx} 
-                className="bg-white rounded-3xl p-6 border-2 border-slate-200 shadow-xs hover:border-[#1e40af] hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-xs font-extrabold text-[#E81E76] bg-pink-50 px-3 py-1 rounded-full border border-pink-100 whitespace-nowrap">
-                      {partner.badge}
-                    </span>
-                    <span className="text-xs font-black text-slate-900 font-['Outfit',sans-serif] text-right">
-                      {partner.rate}
-                    </span>
-                  </div>
-
-                  <div className="flex items-start gap-3.5 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center p-2 shadow-2xs flex-shrink-0">
-                      <BankLogo 
-                        name={partner.logoName || partner.name} 
-                        size="sm" 
-                        showText={false} 
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <h3 className="text-base font-bold text-slate-900 font-['Outfit',sans-serif] leading-snug">
-                        {partner.name}
-                      </h3>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-normal">
-                        {partner.tagline}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Details stats */}
-                  <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 space-y-1.5 mb-4 text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-slate-500 font-medium">Max Quantum:</span>
-                      <span className="font-bold text-slate-800">{partner.maxAmount}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500 font-medium">Max Tenure:</span>
-                      <span className="font-bold text-slate-800">{partner.tenure}</span>
-                    </div>
-                  </div>
-
-                  {/* Feature bullet points */}
-                  <div className="space-y-2 mb-6">
-                    {partner.features.map((feat, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Partner CTA button: Lead Gen for Home Loan & LAP, Registration for Loan Agent, Direct Partner URL for Personal/Cards/Business */}
-                <div>
-                  {data.slug === '/loan-agent' ? (
-                    <button
-                      onClick={() => {
-                        if (onOpenPartnerModal) {
-                          onOpenPartnerModal();
-                        } else {
-                          onOpenApplyModal(`${partner.name} - Loan Agent`);
-                        }
-                      }}
-                      className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer group"
-                    >
-                      <Users className="w-4 h-4" />
-                      <span>Register to Sell ({partner.name})</span>
-                    </button>
-                  ) : isSecuredProduct ? (
-                    <button
-                      onClick={() => onOpenApplyModal(`${partner.name} - ${data.categoryName}`)}
-                      className="w-full py-3 px-4 bg-[#E81E76] hover:bg-[#c2145e] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer group"
-                    >
-                      <span>Apply via JinnyLoan</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  ) : (
-                    <a
-                      href={partner.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 px-4 bg-[#1e40af] hover:bg-[#E81E76] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer group"
-                    >
-                      <span>Apply on Partner Site</span>
-                      <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                    </a>
-                  )}
-                  <p className="text-[10px] text-slate-400 text-center mt-2 truncate">
-                    {data.slug === '/loan-agent'
-                      ? 'Partner registration is 100% free • No joining fee'
-                      : isSecuredProduct ? 'Priority processing with dedicated RM' : `Official Partner Portal: ${partner.name}`}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 3. VERIFIED PARTNERS RESPONSIVE SLIDER (3 CARDS DESKTOP, 1 CARD MOBILE, CONTINUOUS AUTO-SLIDING) */}
+        <VerifiedPartnersSlider
+          partners={data.partners}
+          categoryName={data.categoryName}
+          isDirectRedirect={data.isDirectRedirect}
+          slug={data.slug}
+          onOpenApplyModal={onOpenApplyModal}
+          onOpenPartnerModal={onOpenPartnerModal}
+        />
 
         {/* DSA COMMISSION ESTIMATOR (FOR /loan-agent) */}
         {data.slug === '/loan-agent' && (
@@ -779,6 +695,14 @@ export const ProductPage: React.FC<ProductPageProps> = ({
         </div>
 
       </div>
+
+      {/* Multi-Lender Curated Offer Modal */}
+      <CuratedOffersModal
+        isOpen={Boolean(activeOfferModalType)}
+        type={activeOfferModalType}
+        onClose={() => setActiveOfferModalType(null)}
+        onOpenApplyModal={onOpenApplyModal}
+      />
     </div>
   );
 };
