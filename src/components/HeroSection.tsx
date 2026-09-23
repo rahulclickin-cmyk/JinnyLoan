@@ -15,6 +15,7 @@ import { JinnyLogo } from './JinnyLogo';
 import { useSiteConfig } from '../context/ConfigContext';
 import { useRouter } from '../context/RouterContext';
 import { HeroBannerConfig } from '../config/siteConfig';
+import { FloatingPathsBackground } from './ui/floating-paths';
 
 interface HeroSectionProps {
   onOpenApplyModal: (loanType?: string) => void;
@@ -287,6 +288,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      {/* Dynamic Animated Floating Paths Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-25 sm:opacity-30 overflow-hidden text-blue-900">
+        <FloatingPathsBackground position={1}>
+          <div className="w-full h-full" />
+        </FloatingPathsBackground>
+      </div>
+
       {/* Background ambient blurs */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-pink-100/50 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
       <div className="absolute top-1/2 right-10 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />

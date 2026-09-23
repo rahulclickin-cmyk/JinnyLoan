@@ -29,6 +29,7 @@ import { AdminCMS } from './components/admin/AdminCMS';
 import { AiChatbot } from './components/AiChatbot';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 import { WelcomeOfferPopup } from './components/WelcomeOfferPopup';
+import { WebsiteLoader } from './components/WebsiteLoader';
 
 export function App() {
   const { currentPath, navigate, isHome } = useRouter();
@@ -90,6 +91,9 @@ export function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] flex flex-col selection:bg-[#E81E76] selection:text-white pb-16 md:pb-0">
       
+      {/* Global Brand Website Preloader */}
+      <WebsiteLoader />
+
       {/* 1. Global Header with Contact Bar & Sticky Navigation */}
       <Header
         onOpenApplyModal={handleOpenApplyModal}
