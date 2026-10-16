@@ -100,6 +100,7 @@ export function App() {
         onOpenContactModal={() => setIsContactModalOpen(true)}
         onOpenAboutModal={() => setIsAboutModalOpen(true)}
         onOpenPartnerModal={() => setIsPartnerModalOpen(true)}
+        onOpenAdminModal={() => setIsAdminModalOpen(true)}
       />
 
       {/* Main Content Sections: Services Page, Product Page, or Main Landing Page */}

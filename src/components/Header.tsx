@@ -29,6 +29,7 @@ interface HeaderProps {
   onOpenAboutModal: () => void;
   onOpenPartnerModal?: () => void;
   onOpenCalculator?: () => void;
+  onOpenAdminModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -36,7 +37,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenContactModal,
   onOpenAboutModal,
   onOpenPartnerModal,
-  onOpenCalculator
+  onOpenCalculator,
+  onOpenAdminModal
 }) => {
   const { navigate, currentPath } = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -303,8 +305,19 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
 
-          {/* Action Button: Loan Inquiry */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Action Button: Loan Inquiry & Admin Portal */}
+          <div className="hidden sm:flex items-center gap-2.5">
+            {onOpenAdminModal && (
+              <button
+                onClick={onOpenAdminModal}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-full transition-all cursor-pointer border border-slate-200"
+                id="header-admin-btn"
+                title="Open Enterprise CMS Portal"
+              >
+                <span>⚙️</span>
+                <span>Admin CMS</span>
+              </button>
+            )}
             <button
               onClick={() => onOpenApplyModal('General Inquiry')}
               className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-[#22c55e] hover:bg-[#16a34a] rounded-full shadow-md shadow-green-500/20 hover:shadow-green-500/35 transition-all transform hover:-translate-y-0.5 cursor-pointer"
@@ -458,7 +471,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 space-y-2">
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
@@ -470,6 +483,17 @@ export const Header: React.FC<HeaderProps> = ({
               <MessageSquare className="w-4 h-4 fill-white/20" />
               <span>Loan Inquiry</span>
             </button>
+            {onOpenAdminModal && (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenAdminModal();
+                }}
+                className="w-full py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl flex items-center justify-center gap-1.5 border border-slate-200"
+              >
+                <span>⚙️ Open Admin CMS Portal</span>
+              </button>
+            )}
           </div>
         </div>
       )}
